@@ -3,10 +3,16 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'nodes',
-		'connections'
+		'connections',
+		'in'
 	],
 	#category : #NEAT
 }
+
+{ #category : #adding }
+NEIndividual >> addConnection: aConnection [
+	connections add: aConnection 
+]
 
 { #category : #adding }
 NEIndividual >> addHiddenNode [
@@ -30,9 +36,11 @@ NEIndividual >> addOutputNode [
 
 { #category : #'as yet unclassified' }
 NEIndividual >> buildNetwork [
-	| n |
-	n := NENetwork new.
-	^ n
+	nodes do: #resetConnections.
+	connections do: [ :c |
+		c isEnabled ifTrue: [
+			(nodes at: c in) connect: (nodes at: c out) weight: c weight ].
+	]
 ]
 
 { #category : #initialization }
@@ -40,4 +48,14 @@ NEIndividual >> initialize [
 	super initialize.
 	nodes := OrderedCollection new.
 	connections := OrderedCollection new
+]
+
+{ #category : #'as yet unclassified' }
+NEIndividual >> numberOfInputs [
+	^ (nodes select: #isInput) size
+]
+
+{ #category : #'as yet unclassified' }
+NEIndividual >> numberOfOutputs [
+	^ (nodes select: #isOutput) size
 ]
