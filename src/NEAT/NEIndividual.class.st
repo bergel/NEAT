@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'nodes',
 		'connections',
-		'in'
+		'in',
+		'value'
 	],
 	#category : #NEAT
 }
@@ -26,7 +27,8 @@ NEIndividual >> addInputNode [
 
 { #category : #adding }
 NEIndividual >> addNode: aNode [
-	nodes add: aNode
+	nodes add: aNode.
+	aNode id: nodes size
 ]
 
 { #category : #adding }
@@ -43,6 +45,15 @@ NEIndividual >> buildNetwork [
 	]
 ]
 
+{ #category : #'public access' }
+NEIndividual >> evaluate: anArray [
+	self assert: [ anArray size = self numberOfInputs ] description: 'Wrong number of arguments'.
+	
+	self buildNetwork.
+	self inputNodes with: anArray do: [ :n :aValue | n evaluate: aValue ].
+	^ self outputNodes collect: #value as: Array
+]
+
 { #category : #initialization }
 NEIndividual >> initialize [
 	super initialize.
@@ -51,11 +62,38 @@ NEIndividual >> initialize [
 ]
 
 { #category : #'as yet unclassified' }
+NEIndividual >> inputNodes [
+	^ nodes select: #isInput
+]
+
+{ #category : #accessing }
+NEIndividual >> nodes [
+	^ nodes
+]
+
+{ #category : #'as yet unclassified' }
 NEIndividual >> numberOfInputs [
-	^ (nodes select: #isInput) size
+	^ self inputNodes size
 ]
 
 { #category : #'as yet unclassified' }
 NEIndividual >> numberOfOutputs [
-	^ (nodes select: #isOutput) size
+	^ self outputNodes size
+]
+
+{ #category : #'as yet unclassified' }
+NEIndividual >> outputNodes [
+	^ nodes select: #isOutput
+]
+
+{ #category : #'as yet unclassified' }
+NEIndividual >> visualize [
+	| b |
+	self buildNetwork.
+	b := RTMondrian new.
+	b shape label text: #id.
+	b nodes: self nodes.
+	b edges connectToAll: #connectedNodes.
+	b layout tree.
+	^ b
 ]
