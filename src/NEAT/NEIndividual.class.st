@@ -22,7 +22,13 @@ NEIndividual >> addHiddenNode [
 
 { #category : #adding }
 NEIndividual >> addInputNode [
-	self addNode: (NENode new setAsInput)
+	| newWeight |
+	self addNode: (NENode new setAsInput).
+
+	self outputNodes do: [ :on |
+		newWeight := Random new next * 4 - 2.
+		self addConnection: (NEConnection new in: self numberOfNodes; out: on id; weight: newWeight; makeEnabled; innovationNumber: 1)
+	]
 ]
 
 { #category : #adding }
@@ -33,7 +39,13 @@ NEIndividual >> addNode: aNode [
 
 { #category : #adding }
 NEIndividual >> addOutputNode [
-	self addNode: (NENode new setAsOutput)
+	| newWeight |
+	self addNode: (NENode new setAsOutput).
+	
+	self inputNodes do: [ :ino |
+		newWeight := Random new next * 4 - 2.
+		self addConnection: (NEConnection new in: ino id; out: self numberOfNodes; weight: newWeight; makeEnabled; innovationNumber: 1)
+	]
 ]
 
 { #category : #'as yet unclassified' }
@@ -66,14 +78,29 @@ NEIndividual >> inputNodes [
 	^ nodes select: #isInput
 ]
 
+{ #category : #testing }
+NEIndividual >> isNode: node1Id connectedTo: node2Id [
+	^ connections anySatisfy: [ :c | c in = node1Id and: [ c out = node2Id ] ]
+]
+
 { #category : #accessing }
 NEIndividual >> nodes [
 	^ nodes
 ]
 
 { #category : #'as yet unclassified' }
+NEIndividual >> numberOfConnections [
+	^ connections size
+]
+
+{ #category : #'as yet unclassified' }
 NEIndividual >> numberOfInputs [
 	^ self inputNodes size
+]
+
+{ #category : #'as yet unclassified' }
+NEIndividual >> numberOfNodes [
+	^ nodes size
 ]
 
 { #category : #'as yet unclassified' }

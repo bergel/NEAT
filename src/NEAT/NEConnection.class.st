@@ -62,6 +62,6 @@ NEConnection >> weight [
 ]
 
 { #category : #accessing }
-NEConnection >> weight: anObject [
-	weight := anObject
+NEConnection >> weight: aNumber [
+	weight := aNumber
 ]
