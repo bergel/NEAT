@@ -5,13 +5,15 @@ Class {
 		'nodes',
 		'connections',
 		'in',
-		'value'
+		'value',
+		'random'
 	],
 	#category : #NEAT
 }
 
 { #category : #adding }
 NEIndividual >> addConnection: aConnection [
+	self assert: [ connections noneSatisfy: [ :c | c in = aConnection in and: [ c out =  aConnection out ] ] ] description: 'Cannot have duplicated connections'.
 	connections add: aConnection 
 ]
 
@@ -26,7 +28,7 @@ NEIndividual >> addInputNode [
 	self addNode: (NENode new setAsInput).
 
 	self outputNodes do: [ :on |
-		newWeight := Random new next * 4 - 2.
+		newWeight := random next * 4 - 2.
 		self addConnection: (NEConnection new in: self numberOfNodes; out: on id; weight: newWeight; makeEnabled; innovationNumber: 1)
 	]
 ]
@@ -43,7 +45,7 @@ NEIndividual >> addOutputNode [
 	self addNode: (NENode new setAsOutput).
 	
 	self inputNodes do: [ :ino |
-		newWeight := Random new next * 4 - 2.
+		newWeight := random next * 4 - 2.
 		self addConnection: (NEConnection new in: ino id; out: self numberOfNodes; weight: newWeight; makeEnabled; innovationNumber: 1)
 	]
 ]
@@ -111,6 +113,16 @@ NEIndividual >> numberOfOutputs [
 { #category : #'as yet unclassified' }
 NEIndividual >> outputNodes [
 	^ nodes select: #isOutput
+]
+
+{ #category : #accessing }
+NEIndividual >> random: aRandomNumberGenerator [
+	random := aRandomNumberGenerator
+]
+
+{ #category : #'instance creation' }
+NEIndividual >> seed: aSeed [
+	self random: (Random seed: aSeed)
 ]
 
 { #category : #'as yet unclassified' }

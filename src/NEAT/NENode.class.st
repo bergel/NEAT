@@ -50,6 +50,14 @@ NENode >> isOutput [
 	^ kind == #output
 ]
 
+{ #category : #printing }
+NENode >> printOn: str [ 
+	super printOn: str.
+	str nextPut: $<.
+	id ifNotNil: [ str nextPutAll: id asString ].
+	str nextPut: $>.
+]
+
 { #category : #initialization }
 NENode >> resetConnections [
 	connectionsCache := OrderedCollection new.
