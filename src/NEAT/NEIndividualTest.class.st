@@ -4,6 +4,48 @@ Class {
 	#category : #NEAT
 }
 
+{ #category : #'tests mutation operators' }
+NEIndividualTest >> setUp [
+	super setUp.
+	NEAbstractStructuralMutationOperation reset
+]
+
+{ #category : #'tests mutation operators' }
+NEIndividualTest >> testAddNodeMutation [
+
+	| ind |
+	ind := NEIndividual new.
+	ind seed: 42.
+	ind addInputNode; addInputNode; addInputNode.
+	ind addOutputNode.
+	self assert: ind numberOfNodes equals: 4.
+	self assert: ind numberOfConnections equals: 3.
+	
+	self assert: (ind nodes allSatisfy: [ :n | n innovationNumber = 1 ]).
+	self assert: (ind connections allSatisfy: [ :n | n innovationNumber = 1 ]).
+	
+	NEAddNodeMutationOperation new performOn: ind.
+	self assert: ind numberOfNodes equals: 5.
+	self assert: ind numberOfConnections equals: 5.
+	self assert: ((ind nodes allButLast: 1) allSatisfy: [ :n | n innovationNumber = 1 ]).
+	self assert: (ind nodes last innovationNumber = 2).
+	self assert: ((ind connections allButLast: 3) allSatisfy: [ :n | n innovationNumber = 1 ]).
+	self assert: ((ind connections last: 2) allSatisfy: [ :n | n innovationNumber = 2 ]).
+
+	NEAddNodeMutationOperation new performOn: ind.
+	self assert: ind numberOfNodes equals: 6.
+	self assert: ind numberOfConnections equals: 7.
+	self assert: (ind nodes last innovationNumber = 3).
+	self assert: ((ind connections last: 2) allSatisfy: [ :n | n innovationNumber = 3 ]).
+
+	NEAddNodeMutationOperation new performOn: ind.
+	self assert: ind numberOfNodes equals: 7.
+	self assert: ind numberOfConnections equals: 9.
+	self assert: (ind nodes last innovationNumber = 4).
+	self assert: ((ind connections last: 2) allSatisfy: [ :n | n innovationNumber = 4 ]).
+
+]
+
 { #category : #tests }
 NEIndividualTest >> testBasic [
 	| ind |
@@ -21,13 +63,9 @@ NEIndividualTest >> testExamplePaper [
 	ind := NEIndividual new.
 	ind random: (Random seed: 42).
 	ind addInputNode; addInputNode; addInputNode; addOutputNode; addHiddenNode.
-"	ind addConnection: (NEConnection new in: 1; out: 4; weight: 0.7; makeEnabled; innovationNumber: 1)."
-	"ind addConnection: (NEConnection new in: 2; out: 4; weight: -0.5; makeDisabled; innovationNumber: 2)."
-	"ind addConnection: (NEConnection new in: 3; out: 4; weight: 0.5; makeEnabled; innovationNumber: 3)."
 	ind addConnection: (NEConnection new in: 2; out: 5; weight: 0.2; makeEnabled; innovationNumber: 4).
 	ind addConnection: (NEConnection new in: 5; out: 4; weight: 0.4; makeEnabled; innovationNumber: 5).
 	ind addConnection: (NEConnection new in: 1; out: 5; weight: 0.6; makeEnabled; innovationNumber: 6).
-"	ind addConnection: (NEConnection new in: 4; out: 5; weight: 0.6; makeEnabled; innovationNumber: 11)."
 
 	self assert: ind numberOfInputs equals: 3.
 	self assert: ind numberOfOutputs equals: 1.
@@ -84,4 +122,16 @@ NEIndividualTest >> testInitialConnections2 [
 	self assert: ind numberOfInputs equals: 2.
 	self assert: ind numberOfOutputs equals: 1.
 	
+]
+
+{ #category : #tests }
+NEIndividualTest >> testSimpleIndividual [
+
+	| ind |
+	ind := NEIndividual new.
+	ind seed: 42.
+	ind addInputNode; addInputNode; addInputNode.
+	ind addOutputNode.
+	
+	self assert: ind numberOfConnections equals: 3.
 ]

@@ -5,7 +5,8 @@ Class {
 		'id',
 		'kind',
 		'connectionsCache',
-		'value'
+		'value',
+		'innovationNumber'
 	],
 	#category : #NEAT
 }
@@ -38,6 +39,16 @@ NENode >> id [
 { #category : #accessing }
 NENode >> id: anInteger [
 	id := anInteger
+]
+
+{ #category : #accessing }
+NENode >> innovationNumber [
+	^ innovationNumber
+]
+
+{ #category : #accessing }
+NENode >> innovationNumber: anInteger [
+	innovationNumber := anInteger
 ]
 
 { #category : #testing }

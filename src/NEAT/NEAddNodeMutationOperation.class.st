@@ -14,9 +14,9 @@ NEAddNodeMutationOperation >> on: anIndividual [
 	c := relevantConnections atRandom: random.
 	self assert: [ c isEnabled ].
 	c makeDisabled.
-	anIndividual addHiddenNode.
+	(anIndividual addHiddenNode) innovationNumber: InnovationNumber.
 	anIndividual addConnection: 
-		(NEConnection new in: c in; out: anIndividual numberOfNodes; weight: 1; makeEnabled).
+		(NEConnection new in: c in; out: anIndividual numberOfNodes; weight: 1; makeEnabled; innovationNumber: InnovationNumber).
 	anIndividual addConnection: 
-		(NEConnection new in: anIndividual numberOfNodes; out: c out; weight: c weight; makeEnabled).
+		(NEConnection new in: anIndividual numberOfNodes; out: c out; weight: c weight; makeEnabled; innovationNumber: InnovationNumber).
 ]

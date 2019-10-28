@@ -27,8 +27,8 @@ NEConnection >> innovationNumber [
 ]
 
 { #category : #accessing }
-NEConnection >> innovationNumber: anObject [
-	innovationNumber := anObject
+NEConnection >> innovationNumber: anInteger [
+	innovationNumber := anInteger
 ]
 
 { #category : #evaluating }

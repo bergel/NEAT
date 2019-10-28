@@ -19,13 +19,16 @@ NEIndividual >> addConnection: aConnection [
 
 { #category : #adding }
 NEIndividual >> addHiddenNode [
-	self addNode: (NENode new setAsHidden)
+	| node |
+	node := NENode new setAsHidden.
+	self addNode: node.
+	^ node
 ]
 
 { #category : #adding }
 NEIndividual >> addInputNode [
 	| newWeight |
-	self addNode: (NENode new setAsInput).
+	self addNode: (NENode new setAsInput; innovationNumber: 1).
 
 	self outputNodes do: [ :on |
 		newWeight := random next * 4 - 2.
@@ -42,7 +45,7 @@ NEIndividual >> addNode: aNode [
 { #category : #adding }
 NEIndividual >> addOutputNode [
 	| newWeight |
-	self addNode: (NENode new setAsOutput).
+	self addNode: (NENode new setAsOutput; innovationNumber: 1).
 	
 	self inputNodes do: [ :ino |
 		newWeight := random next * 4 - 2.
@@ -57,6 +60,11 @@ NEIndividual >> buildNetwork [
 		c isEnabled ifTrue: [
 			(nodes at: c in) connect: (nodes at: c out) weight: c weight ].
 	]
+]
+
+{ #category : #accessing }
+NEIndividual >> connections [
+	^ connections 
 ]
 
 { #category : #'public access' }
@@ -113,6 +121,12 @@ NEIndividual >> numberOfOutputs [
 { #category : #'as yet unclassified' }
 NEIndividual >> outputNodes [
 	^ nodes select: #isOutput
+]
+
+{ #category : #accessing }
+NEIndividual >> random [
+	^ random
+	
 ]
 
 { #category : #accessing }
