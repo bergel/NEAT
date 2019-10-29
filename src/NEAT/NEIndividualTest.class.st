@@ -56,6 +56,28 @@ NEIndividualTest >> testBasic [
 	self assert: ind numberOfConnections equals: 0.
 ]
 
+{ #category : #'tests crossover' }
+NEIndividualTest >> testCrossOver01 [
+
+	| i1 i2 |
+	i1 := NEIndividual new.
+	i1 seed: 42.
+	i1 addInputNode; addInputNode; addInputNode.
+	i1 addOutputNode.
+	
+	i2 := NEIndividual new.
+	i2 seed: 42.
+	i2 addInputNode; addInputNode; addInputNode.
+	i2 addOutputNode.
+	
+	NEAddConnectionMutationOperation new performOn: i1.
+	NEAddConnectionMutationOperation new performOn: i1.
+	NEAddNodeMutationOperation new performOn: i2.
+	NEAddNodeMutationOperation new performOn: i2.
+	
+	self halt.
+]
+
 { #category : #tests }
 NEIndividualTest >> testExamplePaper [
 
