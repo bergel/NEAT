@@ -67,6 +67,11 @@ NEIndividual >> connections [
 	^ connections 
 ]
 
+{ #category : #accessing }
+NEIndividual >> connections: someConnections [
+	connections := someConnections 
+]
+
 { #category : #'public access' }
 NEIndividual >> evaluate: anArray [
 	self assert: [ anArray size = self numberOfInputs ] description: 'Wrong number of arguments'.
@@ -74,6 +79,15 @@ NEIndividual >> evaluate: anArray [
 	self buildNetwork.
 	self inputNodes with: anArray do: [ :n :aValue | n evaluate: aValue ].
 	^ self outputNodes collect: #value as: Array
+]
+
+{ #category : #ui }
+NEIndividual >> gtInspectorViewIn: composite [
+	<gtInspectorPresentationOrder: -10>
+	composite roassal2
+		title: 'View';
+		initializeView: [ | v |
+			self visualize ]
 ]
 
 { #category : #initialization }
@@ -96,6 +110,11 @@ NEIndividual >> isNode: node1Id connectedTo: node2Id [
 { #category : #accessing }
 NEIndividual >> nodes [
 	^ nodes
+]
+
+{ #category : #accessing }
+NEIndividual >> nodes: someNodes [
+	nodes := someNodes 
 ]
 
 { #category : #'as yet unclassified' }

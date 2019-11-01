@@ -20,7 +20,10 @@ NEAddConnectionMutationOperation >> findMissingConnectionIn: anIndividual nbTry:
 		
 	(self is: node1 accessibleFrom: node2 in: anIndividual)
 		ifTrue: [ ^ self findMissingConnectionIn: anIndividual nbTry: (nbTry - 1) ].
-	
+		
+	node2 isInput ifTrue: [ ^ self findMissingConnectionIn: anIndividual nbTry: (nbTry - 1) ].
+	node1 isOutput ifTrue: [ ^ self findMissingConnectionIn: anIndividual nbTry: (nbTry - 1) ].
+	"{ FROM . TO }"
 	^ { node1 id . node2 id }
 ]
 
