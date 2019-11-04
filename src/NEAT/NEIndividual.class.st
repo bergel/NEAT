@@ -4,8 +4,6 @@ Class {
 	#instVars : [
 		'nodes',
 		'connections',
-		'in',
-		'value',
 		'random'
 	],
 	#category : #NEAT
@@ -72,6 +70,16 @@ NEIndividual >> connections: someConnections [
 	connections := someConnections 
 ]
 
+{ #category : #copying }
+NEIndividual >> copy [
+	| newInd |
+	newInd := NEIndividual new.
+	newInd random: self random.
+	newInd nodes: (self nodes collect: #copy).
+	newInd connections: (self connections collect: #copy).
+	^ newInd
+]
+
 { #category : #'public access' }
 NEIndividual >> evaluate: anArray [
 	self assert: [ anArray size = self numberOfInputs ] description: 'Wrong number of arguments'.
@@ -95,6 +103,11 @@ NEIndividual >> initialize [
 	super initialize.
 	nodes := OrderedCollection new.
 	connections := OrderedCollection new
+]
+
+{ #category : #'as yet unclassified' }
+NEIndividual >> innovationNumberSequence [
+	^ self connections collect: #innovationNumber as: Array
 ]
 
 { #category : #'as yet unclassified' }

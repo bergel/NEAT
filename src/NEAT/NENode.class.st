@@ -21,6 +21,17 @@ NENode >> connectedNodes [
 	^ connectionsCache collect: #value as: Array
 ]
 
+{ #category : #copying }
+NENode >> copy [
+	| newNode |
+	newNode := NENode new.
+	newNode id: self id.
+	newNode kind: self kind.
+	newNode innovationNumber: self innovationNumber.
+	^ newNode
+
+]
+
 { #category : #'public access' }
 NENode >> evaluate: aValue [
 	"If we are an output node, then we sum the value"
@@ -59,6 +70,16 @@ NENode >> isInput [
 { #category : #testing }
 NENode >> isOutput [
 	^ kind == #output
+]
+
+{ #category : #accessing }
+NENode >> kind [
+	^ kind
+]
+
+{ #category : #accessing }
+NENode >> kind: aKind [
+	kind := aKind
 ]
 
 { #category : #printing }
