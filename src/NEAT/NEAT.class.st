@@ -9,7 +9,10 @@ Class {
 		'numberOfOutputs',
 		'logs',
 		'fitness',
-		'random'
+		'random',
+		'log',
+		'speciation',
+		'numberOfGenerations'
 	],
 	#category : #NEAT
 }
@@ -32,12 +35,45 @@ NEAT >> computeFitnesses [
 	population do: [ :i | i computeFitness: fitness ]
 ]
 
+{ #category : #'as yet unclassified' }
+NEAT >> crossoverBetween: ind1 and: ind2 [
+	^ ind1 fitness > ind2 fitness
+		ifTrue: [ NECrossoverOperation new performOn: ind1 and: ind2 ]
+		ifFalse: [ NECrossoverOperation new performOn: ind2 and: ind1 ]
+]
+
 { #category : #initialization }
 NEAT >> defaultConfig [
 	config := Dictionary new.
 	self for: NEConnectionWeightMutationOperation prob: 0.3.
 	self for: NEAddConnectionMutationOperation prob: 0.2.
 	self for: NEAddNodeMutationOperation prob: 0.2
+]
+
+{ #category : #initialization }
+NEAT >> doLog [
+
+	log := NELog new.
+	log generation: logs size.
+	log speciation: speciation.
+	log minFitness: (population collect: #fitness) min.
+	log maxFitness: (population collect: #fitness) max.
+	log averageFitness: ((population collect: #fitness) average asFloat round: 3).
+	logs add: log.
+]
+
+{ #category : #'as yet unclassified' }
+NEAT >> doMutate: newInd [
+	config
+		associationsDo: [ :cAssoc | 
+			random next <= cAssoc value
+				ifTrue: [ cAssoc key performOn: newInd ] ]
+]
+
+{ #category : #initialization }
+NEAT >> doSpeciation [
+	speciation := NESpeciation new.
+	speciation process: population.
 ]
 
 { #category : #accessing }
@@ -66,7 +102,8 @@ NEAT >> initialize [
 	populationSize := 100.
 	random := Random seed: 42.
 	
-	logs := OrderedCollection new
+	logs := OrderedCollection new.
+	numberOfGenerations := 10
 ]
 
 { #category : #initialization }
@@ -74,51 +111,40 @@ NEAT >> logs [
 	^ logs
 ]
 
+{ #category : #accessing }
+NEAT >> numberOfGenerations [
+	^ numberOfGenerations
+]
+
+{ #category : #accessing }
+NEAT >> numberOfGenerations: anObject [
+	numberOfGenerations := anObject
+]
+
 { #category : #initialization }
 NEAT >> run [
-	| sp log |
 	self buildInitialPopuplation.
-	sp := NESpeciation new.
-	sp process: population.
+	self doSpeciation.
 	self computeFitnesses.
-	log := NELog new.
-	log generation: 0.
-	log speciation: sp.
-	log minFitness: (population collect: #fitness) min.
-	log maxFitness: (population collect: #fitness) max.
-	logs add: log.
-	self runOneGeneration
+	self doLog.
+	numberOfGenerations timesRepeat: [ 
+		self runOneGeneration ]
 ]
 
 { #category : #'as yet unclassified' }
 NEAT >> runOneGeneration [
-	| newPopulation indCopy sp ind ind1 ind2 ind1Copy ind2Copy newInd |
+	| newPopulation ind1 ind2 newInd |
 	newPopulation := OrderedCollection new.
-	
-	populationSize timesRepeat: [
-		ind1 := self selectIndividual.
-		ind2 := self selectIndividual: ind species individuals.
-		ind1Copy := ind1 copy.
-		ind2Copy := ind2 copy.
-		
-		"We do the crossover"
-		ind1 fitness > ind2 fitness 
-			ifTrue: [ newInd := NECrossoverOperation new performOn: ind1 and: ind2 ]
-			ifFalse: [ newInd := NECrossoverOperation new performOn: ind2 and: ind1 ].
-		 
-		 
-		"We do mutations"
-		config associationsDo: [ :cAssoc |
-			random next <= cAssoc value ifTrue: [ cAssoc key performOn: newInd ] ].
-		newPopulation add: newInd.
-		newInd computeFitness: fitness.
-	].
-	
-	sp := NESpeciation new.
-	sp process: newPopulation.
-
-	self halt.
-	population := newPopulation
+	populationSize
+		timesRepeat: [ ind1 := self selectIndividual.
+			ind2 := self selectIndividual: ind1 species individuals.
+			newInd := self crossoverBetween: ind1 and: ind2.
+			self doMutate: newInd.
+			newPopulation add: newInd.
+			newInd computeFitness: fitness ].
+	self doSpeciation.
+	population := newPopulation.
+	self doLog
 ]
 
 { #category : #'as yet unclassified' }

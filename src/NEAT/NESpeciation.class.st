@@ -44,8 +44,8 @@ NESpeciation >> process: someIndividuals [
 		(seq last: (threshold min: seq size - 1)) first ].
 
 	groups := g associations collect: [ :assoc | NESpecies new individuals: assoc value; id: assoc key ].
-	groups values do: [ :aSpecies |
-		aSpecies individuals do: [ :i | i species: g ] ]
+	groups do: [ :aSpecies |
+		aSpecies individuals do: [ :i | i species: aSpecies ] ]
 ]
 
 { #category : #adding }

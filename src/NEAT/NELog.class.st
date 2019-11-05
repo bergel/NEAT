@@ -5,10 +5,21 @@ Class {
 		'generation',
 		'speciation',
 		'minFitness',
-		'maxFitness'
+		'maxFitness',
+		'averageFitness'
 	],
 	#category : #NEAT
 }
+
+{ #category : #accessing }
+NELog >> averageFitness [
+	^ averageFitness
+]
+
+{ #category : #accessing }
+NELog >> averageFitness: anObject [
+	averageFitness := anObject
+]
 
 { #category : #accessing }
 NELog >> generation [
@@ -38,6 +49,14 @@ NELog >> minFitness [
 { #category : #accessing }
 NELog >> minFitness: anObject [
 	minFitness := anObject
+]
+
+{ #category : #printing }
+NELog >> printOn: str [
+	super printOn: str.
+	str nextPut: $<.
+	generation ifNotNil: [ str nextPutAll: generation asString ].
+	str nextPut: $>.
 ]
 
 { #category : #accessing }

@@ -204,6 +204,21 @@ NEIndividual >> seed: aSeed [
 	self random: (Random seed: aSeed)
 ]
 
+{ #category : #accessing }
+NEIndividual >> species [
+	^ species
+]
+
+{ #category : #accessing }
+NEIndividual >> species1 [
+	^ species
+]
+
+{ #category : #accessing }
+NEIndividual >> species: anObject [
+	species := anObject
+]
+
 { #category : #'as yet unclassified' }
 NEIndividual >> visualize [
 	| b |
