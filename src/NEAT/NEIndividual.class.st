@@ -12,6 +12,9 @@ Class {
 { #category : #adding }
 NEIndividual >> addConnection: aConnection [
 	self assert: [ connections noneSatisfy: [ :c | c in = aConnection in and: [ c out =  aConnection out ] ] ] description: 'Cannot have duplicated connections'.
+	connections ifNotEmpty: [ 
+		self assert: [ aConnection innovationNumber >= connections last innovationNumber ] description: 'Something wrong here'. 
+	].
 	connections add: aConnection 
 ]
 
@@ -90,22 +93,30 @@ NEIndividual >> evaluate: anArray [
 ]
 
 { #category : #ui }
+NEIndividual >> gtInspectorListIn: composite [
+	<gtInspectorPresentationOrder: -1>
+	composite list
+		title: 'Innov';
+		display: #innovationNumberSequence
+]
+
+{ #category : #ui }
 NEIndividual >> gtInspectorViewIn: composite [
 	<gtInspectorPresentationOrder: -10>
 	composite roassal2
 		title: 'View';
-		initializeView: [ | v |
-			self visualize ]
+		initializeView: [ 	self visualize ]
 ]
 
 { #category : #initialization }
 NEIndividual >> initialize [
 	super initialize.
 	nodes := OrderedCollection new.
-	connections := OrderedCollection new
+	connections := OrderedCollection new.
+	self seed: 42.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 NEIndividual >> innovationNumberSequence [
 	^ self connections collect: #innovationNumber as: Array
 ]

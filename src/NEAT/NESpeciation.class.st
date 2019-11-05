@@ -13,6 +13,14 @@ NESpeciation >> groups [
 	^ groups
 ]
 
+{ #category : #ui }
+NESpeciation >> gtInspectorViewIn: composite [
+	<gtInspectorPresentationOrder: -10>
+	composite roassal2
+		title: 'View';
+		initializeView: [ 	self visualize ]
+]
+
 { #category : #adding }
 NESpeciation >> initialize [
 	super initialize.
@@ -74,4 +82,14 @@ NESpeciation >> threshold [
 { #category : #accessing }
 NESpeciation >> threshold: anInteger [
 	threshold := anInteger
+]
+
+{ #category : #ui }
+NESpeciation >> visualize [
+	| b |
+	b := RTMondrian new.
+	b shape box size: [ :s | s individuals size ].
+	b nodes: self groups.
+	b layout grid.
+	^ b
 ]

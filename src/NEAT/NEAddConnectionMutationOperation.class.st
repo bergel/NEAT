@@ -41,7 +41,7 @@ NEAddConnectionMutationOperation >> on: anIndividual [
 	"We did not find a solution, so we merely exit. There is not much we can do"
 	array ifNil: [ ^ self ].
 	
-	anIndividual addConnection: (NEConnection new in: array first; out: array second; weight: (random next * 4 - 2); makeEnabled; innovationNumber: 2)
+	anIndividual addConnection: (NEConnection new in: array first; out: array second; weight: (random next * 4 - 2); makeEnabled; innovationNumber: InnovationNumber)
 ]
 
 { #category : #'instance creation' }

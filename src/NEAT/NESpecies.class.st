@@ -8,6 +8,14 @@ Class {
 	#category : #NEAT
 }
 
+{ #category : #ui }
+NESpecies >> gtInspectorViewIn: composite [
+	<gtInspectorPresentationOrder: -10>
+	composite roassal2
+		title: 'View';
+		initializeView: [ 	self visualize ]
+]
+
 { #category : #accessing }
 NESpecies >> id [
 	^ id
@@ -41,4 +49,13 @@ NESpecies >> printOn: str [
 	str nextPut: $,.
 	individuals ifNotNil: [ str nextPutAll: individuals size asString ].
 	str nextPut: $>.
+]
+
+{ #category : #ui }
+NESpecies >> visualize [
+	| b |
+	b := RTMondrian new.
+	b nodes: individuals.
+	b layout grid.
+	^ b
 ]
