@@ -43,8 +43,9 @@ NESpeciation >> process: someIndividuals [
 		seq := individual innovationNumberSequence.
 		(seq last: (threshold min: seq size - 1)) first ].
 
-	groups := g associations collect: [ :assoc | NESpecies new individuals: assoc value; id: assoc key ]	
-	
+	groups := g associations collect: [ :assoc | NESpecies new individuals: assoc value; id: assoc key ].
+	groups values do: [ :aSpecies |
+		aSpecies individuals do: [ :i | i species: g ] ]
 ]
 
 { #category : #adding }

@@ -4,7 +4,9 @@ Class {
 	#instVars : [
 		'nodes',
 		'connections',
-		'random'
+		'random',
+		'fitness',
+		'species'
 	],
 	#category : #NEAT
 }
@@ -63,6 +65,12 @@ NEIndividual >> buildNetwork [
 	]
 ]
 
+{ #category : #'as yet unclassified' }
+NEIndividual >> computeFitness: oneArgBlock [
+	self assert: [ fitness isNil ] description: 'Already compute fitness'.
+	fitness := oneArgBlock value: self.
+]
+
 { #category : #accessing }
 NEIndividual >> connections [
 	^ connections 
@@ -90,6 +98,12 @@ NEIndividual >> evaluate: anArray [
 	self buildNetwork.
 	self inputNodes with: anArray do: [ :n :aValue | n evaluate: aValue ].
 	^ self outputNodes collect: #value as: Array
+]
+
+{ #category : #accessing }
+NEIndividual >> fitness [
+	self assert: [ fitness notNil ] description: 'Need to compute fitness first'.
+	^ fitness
 ]
 
 { #category : #ui }
@@ -164,6 +178,14 @@ NEIndividual >> numberOfOutputs [
 { #category : #'as yet unclassified' }
 NEIndividual >> outputNodes [
 	^ nodes select: #isOutput
+]
+
+{ #category : #printing }
+NEIndividual >> printOn: str [
+	super printOn: str.
+	str nextPut: $<.
+	fitness ifNotNil: [ str nextPutAll: fitness asString ].
+	str nextPut: $>.
 ]
 
 { #category : #accessing }
