@@ -34,12 +34,15 @@ NENode >> copy [
 
 { #category : #'public access' }
 NENode >> evaluate: aValue [
+	self assert: [ aValue >= 0 ].
+	self assert: [ aValue <= 1 ].
+
 	"If we are an output node, then we sum the value"
 	self isOutput ifTrue: [ value := value + aValue. ^ self ].
 	
 	"else, we simply pass it" 
 	connectionsCache do: [ :assoc |
-		assoc value evaluate: assoc key * aValue ]
+		assoc value evaluate: (self sigmoid: assoc key * aValue) ]
 ]
 
 { #category : #accessing }
@@ -60,6 +63,11 @@ NENode >> innovationNumber [
 { #category : #accessing }
 NENode >> innovationNumber: anInteger [
 	innovationNumber := anInteger
+]
+
+{ #category : #testing }
+NENode >> isBias [
+	^ self isInput and: [ id = 1 ]
 ]
 
 { #category : #testing }
@@ -113,6 +121,11 @@ NENode >> setAsInput [
 { #category : #initialization }
 NENode >> setAsOutput [
 	kind := #output
+]
+
+{ #category : #'public access' }
+NENode >> sigmoid: z [
+	^ 1 / (1 + z negated exp)
 ]
 
 { #category : #evaluating }

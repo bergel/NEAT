@@ -16,7 +16,7 @@ NEAddNodeMutationOperation >> on: anIndividual [
 	c makeDisabled.
 	(anIndividual addHiddenNode) innovationNumber: InnovationNumber.
 	anIndividual addConnection: 
-		(NEConnection new in: c in; out: anIndividual numberOfNodes; weight: 1; makeEnabled; innovationNumber: InnovationNumber).
+		(NEConnection new in: c in; out: anIndividual numberOfNodesWithBias; weight: 1; makeEnabled; innovationNumber: InnovationNumber).
 	anIndividual addConnection: 
-		(NEConnection new in: anIndividual numberOfNodes; out: c out; weight: c weight; makeEnabled; innovationNumber: InnovationNumber).
+		(NEConnection new in: anIndividual numberOfNodesWithBias; out: c out; weight: c weight; makeEnabled; innovationNumber: InnovationNumber).
 ]

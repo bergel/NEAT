@@ -51,6 +51,11 @@ NELog >> minFitness: anObject [
 	minFitness := anObject
 ]
 
+{ #category : #'as yet unclassified' }
+NELog >> numberOfSpecies [
+	^ speciation numberOfSpecies
+]
+
 { #category : #printing }
 NELog >> printOn: str [
 	super printOn: str.

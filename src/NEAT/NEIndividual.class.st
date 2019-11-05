@@ -17,7 +17,8 @@ NEIndividual >> addConnection: aConnection [
 	connections ifNotEmpty: [ 
 		self assert: [ aConnection innovationNumber >= connections last innovationNumber ] description: 'Something wrong here'. 
 	].
-	connections add: aConnection 
+	connections add: aConnection.
+	self resetNetwork.
 ]
 
 { #category : #adding }
@@ -35,14 +36,15 @@ NEIndividual >> addInputNode [
 
 	self outputNodes do: [ :on |
 		newWeight := random next * 4 - 2.
-		self addConnection: (NEConnection new in: self numberOfNodes; out: on id; weight: newWeight; makeEnabled; innovationNumber: 1)
+		self addConnection: (NEConnection new in: self numberOfNodesWithBias; out: on id; weight: newWeight; makeEnabled; innovationNumber: 1)
 	]
 ]
 
 { #category : #adding }
 NEIndividual >> addNode: aNode [
+	self resetNetwork.
 	nodes add: aNode.
-	aNode id: nodes size
+	aNode id: nodes size.
 ]
 
 { #category : #adding }
@@ -52,17 +54,17 @@ NEIndividual >> addOutputNode [
 	
 	self inputNodes do: [ :ino |
 		newWeight := random next * 4 - 2.
-		self addConnection: (NEConnection new in: ino id; out: self numberOfNodes; weight: newWeight; makeEnabled; innovationNumber: 1)
+		self addConnection: (NEConnection new in: ino id; out: self numberOfNodesWithBias; weight: newWeight; makeEnabled; innovationNumber: 1)
 	]
 ]
 
 { #category : #'as yet unclassified' }
 NEIndividual >> buildNetwork [
-	nodes do: #resetConnections.
-	connections do: [ :c |
-		c isEnabled ifTrue: [
-			(nodes at: c in) connect: (nodes at: c out) weight: c weight ].
-	]
+	self resetNetwork.
+	connections
+		do: [ :c | 
+			c isEnabled
+				ifTrue: [ (nodes at: c in) connect: (nodes at: c out) weight: c weight ] ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -96,7 +98,9 @@ NEIndividual >> evaluate: anArray [
 	self assert: [ anArray size = self numberOfInputs ] description: 'Wrong number of arguments'.
 	
 	self buildNetwork.
-	self inputNodes with: anArray do: [ :n :aValue | n evaluate: aValue ].
+	
+	"We provide 1 to the first node, which is considered as the bias node"
+	self inputNodes with: #(1), anArray do: [ :n :aValue | n evaluate: aValue ].
 	^ self outputNodes collect: #value as: Array
 ]
 
@@ -127,7 +131,10 @@ NEIndividual >> initialize [
 	super initialize.
 	nodes := OrderedCollection new.
 	connections := OrderedCollection new.
-	self seed: 42.
+	"self seed: 42."
+	
+	"This is the bias node"
+	self addInputNode
 ]
 
 { #category : #accessing }
@@ -162,12 +169,19 @@ NEIndividual >> numberOfConnections [
 
 { #category : #'as yet unclassified' }
 NEIndividual >> numberOfInputs [
-	^ self inputNodes size
+	"We substracte one for the bias"
+	^ self inputNodes size - 1
 ]
 
 { #category : #'as yet unclassified' }
 NEIndividual >> numberOfNodes [
-	^ nodes size
+	"Exclude the bias node"
+	^ nodes size - 1
+]
+
+{ #category : #'as yet unclassified' }
+NEIndividual >> numberOfNodesWithBias [
+	^ self nodes size
 ]
 
 { #category : #'as yet unclassified' }
@@ -199,6 +213,11 @@ NEIndividual >> random: aRandomNumberGenerator [
 	random := aRandomNumberGenerator
 ]
 
+{ #category : #'as yet unclassified' }
+NEIndividual >> resetNetwork [
+	nodes do: #resetConnections
+]
+
 { #category : #'instance creation' }
 NEIndividual >> seed: aSeed [
 	self random: (Random seed: aSeed)
@@ -210,21 +229,20 @@ NEIndividual >> species [
 ]
 
 { #category : #accessing }
-NEIndividual >> species1 [
-	^ species
-]
-
-{ #category : #accessing }
 NEIndividual >> species: anObject [
 	species := anObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #ui }
 NEIndividual >> visualize [
 	| b |
 	self buildNetwork.
 	b := RTMondrian new.
-	b shape label text: #id.
+	b shape label text: #id;
+		color: Color gray;
+		if: #isInput color: Color blue;
+		if: #isOutput color: Color red;
+		if: #isBias color: Color yellow.
 	b nodes: self nodes.
 	b edges connectToAll: #connectedNodes.
 	b layout tree.

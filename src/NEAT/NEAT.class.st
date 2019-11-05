@@ -45,9 +45,9 @@ NEAT >> crossoverBetween: ind1 and: ind2 [
 { #category : #initialization }
 NEAT >> defaultConfig [
 	config := Dictionary new.
-	self for: NEConnectionWeightMutationOperation prob: 0.3.
-	self for: NEAddConnectionMutationOperation prob: 0.2.
-	self for: NEAddNodeMutationOperation prob: 0.2
+	self for: NEConnectionWeightMutationOperation prob: 0.15.
+	self for: NEAddConnectionMutationOperation prob: 0.1.
+	self for: NEAddNodeMutationOperation prob: 0.1
 ]
 
 { #category : #initialization }
@@ -67,7 +67,7 @@ NEAT >> doMutate: newInd [
 	config
 		associationsDo: [ :cAssoc | 
 			random next <= cAssoc value
-				ifTrue: [ cAssoc key performOn: newInd ] ]
+				ifTrue: [ cAssoc key random: random; performOn: newInd ] ]
 ]
 
 { #category : #initialization }
@@ -91,11 +91,28 @@ NEAT >> for: aClass prob: prob [
 	config at: aClass new put: prob
 ]
 
+{ #category : #ui }
+NEAT >> gtInspectorNbOfSpeciesIn: composite [
+	<gtInspectorPresentationOrder: -10>
+	composite roassal2
+		title: '#Species';
+		initializeView: [ 	self visualizeNumberOfSpecies ]
+]
+
+{ #category : #ui }
+NEAT >> gtInspectorViewIn: composite [
+	<gtInspectorPresentationOrder: -10>
+	composite roassal2
+		title: 'Fitness';
+		initializeView: [ 	self visualizeFitness ]
+]
+
 { #category : #initialization }
 NEAT >> initialize [
 	super initialize.
 	self defaultConfig.
 
+	"We have two inputs and one bias"
 	numberOfInputs := 2.
 	numberOfOutputs := 1.
 	
@@ -121,6 +138,14 @@ NEAT >> numberOfGenerations: anObject [
 	numberOfGenerations := anObject
 ]
 
+{ #category : #accessing }
+NEAT >> result [
+	| winner |
+	winner := population first.
+	population do: [ :i | winner fitness < i fitness ifTrue: [ winner := i ] ].
+	^ winner
+]
+
 { #category : #initialization }
 NEAT >> run [
 	self buildInitialPopuplation.
@@ -134,15 +159,16 @@ NEAT >> run [
 { #category : #'as yet unclassified' }
 NEAT >> runOneGeneration [
 	| newPopulation ind1 ind2 newInd |
+	self doSpeciation.
 	newPopulation := OrderedCollection new.
 	populationSize
-		timesRepeat: [ ind1 := self selectIndividual.
+		timesRepeat: [ 
+			ind1 := self selectIndividual.
 			ind2 := self selectIndividual: ind1 species individuals.
 			newInd := self crossoverBetween: ind1 and: ind2.
 			self doMutate: newInd.
 			newPopulation add: newInd.
 			newInd computeFitness: fitness ].
-	self doSpeciation.
 	population := newPopulation.
 	self doLog
 ]
@@ -163,4 +189,46 @@ NEAT >> selectIndividual: someIndividuals [
 		winner fitness < i fitness ifTrue: [ winner := i ]
 	].
 	^ winner
+]
+
+{ #category : #'as yet unclassified' }
+NEAT >> visualizeFitness [
+
+	| g d |
+	g := RTGrapher new.
+	
+	"Min fitness"
+	d := RTData new.
+	d noDot; connectColor: Color red.
+	d points: self logs.
+	d y: #minFitness.
+	g add: d.
+	
+	"Max fitness"
+	d := RTData new.
+	d noDot; connectColor: Color blue.
+	d points: self logs.
+	d y: #maxFitness.
+	g add: d.
+	
+	"Average fitness"
+	d := RTData new.
+	d noDot; connectColor: Color green.
+	d points: self logs.
+	d y: #averageFitness.
+	g add: d.
+	
+	^ g
+
+]
+
+{ #category : #ui }
+NEAT >> visualizeNumberOfSpecies [
+	| g d |
+	g := RTGrapher new.
+	d := RTData new.
+	d points: self logs.
+	d y: #numberOfSpecies.
+	g add: d.
+	^ g
 ]
