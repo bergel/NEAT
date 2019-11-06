@@ -34,8 +34,9 @@ NENode >> copy [
 
 { #category : #'public access' }
 NENode >> evaluate: aValue [
-	self assert: [ aValue >= 0 ].
-	self assert: [ aValue <= 1 ].
+	self isInput ifFalse: [
+		self assert: [ aValue >= 0 ].
+		self assert: [ aValue <= 1 ] ].
 
 	"If we are an output node, then we sum the value"
 	self isOutput ifTrue: [ value := value + aValue. ^ self ].

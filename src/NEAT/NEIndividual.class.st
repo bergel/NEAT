@@ -101,7 +101,7 @@ NEIndividual >> evaluate: anArray [
 	
 	"We provide 1 to the first node, which is considered as the bias node"
 	self inputNodes with: #(1), anArray do: [ :n :aValue | n evaluate: aValue ].
-	^ self outputNodes collect: #value as: Array
+	^ self outputNodes collect: [ :n | n sigmoid: n value ] as: Array
 ]
 
 { #category : #accessing }
