@@ -1,0 +1,392 @@
+
+Updated 20/05/2002
+
+
+
+
+            T E S T      X O R      E X P E R I M E N T 
+=========================================================================
+
+Go in library 
+
+		c:\jes\gui   (win)
+		/home/jes/gui
+    
+digit :
+
+		ruin gui.MainGui          and press 'enter'
+
+
+After you must execute the followings steps for verify
+the correct installation:
+
+
+1) The first thing is to select the 'PARAMETER' panel (when you start this
+   it is first panel presented!)
+
+2) press LOAD DEFAULT button for load neat parameter file;
+
+Note:
+   (in System logger windows , at bottom of main window, are the log history 
+   of all action , the  response of a command executed , the log of :
+       'that what is making the system'
+
+3) change the parameter value (if necessary)
+
+4) when you are ready press WRITE button;
+
+
+   Note:
+   the chose 'Load file...'. , 'Write file...'. are for to save current configuration 
+   of file parameter with other name or to load other configuration, but attention , 
+   the real name of file used for established parameter IS FIXED :
+       'parameter'
+
+5) at this point you  can select panel SESSION and press the button LOAD SESS DEFAULT
+   with this button you load a fixed file : 
+       'session'
+
+6) if you hasn't  modification you can press the button WRITE SESS ;
+
+Note:
+Now you have a file with definition of experiment that it is in order to be begun for testing the package.
+The experiment loaded is the simulation for XOR function.
+
+The default session utilize the java class :
+    'xor_fit'  
+for to compute :
+   the fitness, 
+   the error ,
+   the valid condition for declare the current of organism winner;
+they are other chose setted when you load the profile : 
+  the  names of resource can  simulate the input / output   'devices'
+therefore for setting the name of resource in session file and verify e/o change 
+those resource you must reload the session file.
+(this is the cause of step 7)
+
+
+7) press again the button LOAD SESS DEFAULT;
+
+8) In order to see the class cha it calculates the fitness value , press button SET FITNESS CLASS SKELETON;
+
+You can view the source of a java class for evaluate the fitness in function of : 
+   Target value, 
+   Output value, 
+   number of samples
+
+(there and also the number of neuron but in this example as not used!)
+
+This class return , in a vector v[3] , the necessary information for jneat package :
+  a) fitness;
+  b) errorsum;
+  c) in function of a value computed,  if the organism can be considered winner or not;
+  If is a winner , return 1.0 otherwise 0.0;
+
+(it can return the value 2.0 for declaring the current organism SUPER-WINNER)
+
+
+9) after viewing the source you must compile a fitness class, therefore press button COMPILE
+   for create a dynamic class for generate the object class;
+
+
+At this point you have a fitness class ready;
+For fixing the input to net you must load and compile the class can define the input to
+net:
+The same thing it is for define the class can emulate the output desired.
+The next two step are these scopes :
+
+10) press button SET DATA_INP  CLASS SKELETON for view the class can simulate the
+   input binary;
+   therefore press button COMPILE for create the object class;
+
+11) press button SET DATA_OUT  CLASS SKELETON for view the class can simulate the
+    output desired;
+    therefore press button COMPILE for create the object class;
+
+Note:
+The button COMPILE create the member   xxxx.java and the member xxxx.class;
+This if you has selected as input/output any class java!
+If you select the input/output from any data set sequential in text format
+when you load the data_in , for example, you view the sequential file and you can
+ edit and modify this data set;
+for write the modifications press button 'COMPILE' for write to disk the modificated data set;
+warning : the number of records in data_inp and data_out for learning from file , MUST
+BU SAME (has not contrrolled during learning and can originate an error unpredictable)
+Another chose :
+In panel session has another button :
+    CHECK....
+if you press this button you have the parameter key with hilite and the value of parameter
+as a  normal text;
+if the row has for first character the character ';' the row as view to mode italic;
+(I have add the most utilized keyword for java and all keyword know to this application!) 
+
+
+for a final verification if all class has writed and correctly set up,  press ,again,
+button  LOAD SESS DEFAULT and verify the name for  :
+ 'data_input'
+ 'data_out'
+ 'class_compute_fitness'
+
+in order to verify if they have been created all class : 
+
+12) press button LOAD CLASS FITNESS  and view if ok
+
+13) press button LOAD CLASS DATA INPUT  and view if ok
+
+14) press button LOAD CLASS DATA OUTPUT  and view if ok
+
+
+At this point  , finally ('hour hour would say someone!) ,  you have a session file can describe 
+the experiment can you execute;
+During the experiment the class XOR_FIT compute  the fitness with the parameter
+passed from the package;
+The input / out to JNEAT  can be a class , (in this example i have used a class) , or a pair 
+of file text (with this package i have included two file  f_bin_inp, f_xor_out);
+
+15) select panel 'START SIMULATION'
+
+You can start the experiment but before start the button START it watches the three possible selections :
+for default you have the output text but you can select  3 choses :
+
+1) view text during run, fitness, generation etc....
+2) view the current champion / winner (graphics image)
+3) view the fitness curve and number of species curve;
+
+After view what is the preferred chose , press START button;
+(Note : At below of logger panel you can view the number of current generation)
+For stopping the experiment do not press exit but button STOP
+
+when the learning is stopped , if you have a winner or you want to simulate the execution
+for any genome,  press the button :
+       
+         'RUN WITH GENOME FILE';
+you have a list of data set : 
+ go in sub-directory : 
+   \data
+ and select the genome;
+ thus press ok.
+After pressing ok you have the response of the selected genome;
+
+It is present another panel :
+    VIEW GRAPH
+This panel can visualize any type of genome , with link recurrent or not;
+They are : 
+ -a button for load a single genome ,
+ -a button for load a population of genome,
+ -a button for load group of genome from a population can contain a winner
+    (Note : for load the list of winner in a population , you must load the population file with name equal to parameter : 
+              'prefix_generation_file   XXXXXX' 
+     for default this file is 'specie').
+
+
+
+
+
+
+In this package there are the same neat parameter , and others news parameters 
+for realize the test,  and training of an any  net;
+Those parameters are in a session file :
+
+PARAMETER FOR SESSION
+===================================================
+
+The syntax is a 'key parameter'  following by 'value' ;
+if in row of parameter has a ';' as  character  before the parameter ,  the row is ignored !
+
+
+data_from_file  Y
+  Y = the input data for learning is from a file;
+
+data_from_class  Y 
+  Y = the input data for learning is from a java class;
+
+data_input  bin_inp
+  bin_inp = is the name of 'class' / 'file text' that it defines input data
+
+data_target  xor_out
+  xor_out =  is the name of 'class' / 'file text' that it defines output data
+
+class_compute_fitness xor_fit
+  xor_fit = is the name of a class java that it defines the fitness
+
+start_from_genome Y
+ Y = starting the simulation from a single and unique genome : create a population....
+
+
+genome_file genome
+  genome   = is the name of the genome original  ( the first !)
+
+start_from_random_population Y
+ Y = starting the simulation from a population of random organism's
+
+start_from_old_population Y
+ Y = starting the simulation from a existent population
+
+population_file primitive
+primitive = name of population can you create the first time;
+as used for starting from a previous generation interrupted with stop;
+
+the parameter :
+;maximum_unit    5
+;recursion       N
+;probability_of_connection 20
+are commented and are the same original parameter of NEAT for random Population , 
+they come uses you single in the case is worth :
+
+   start_from_random_population Y
+
+and they are commented :
+
+   start_from_genome Y
+   start_from_old_population Y
+(for comment any row , enter a ';' as first character before the keyword)
+
+
+epoch 10
+ 10 = is the number of generation 
+  
+activation 0
+ 0 = automatic : if 0 the activation of net is :
+   depth(net)  + 2
+(is the current mode of original NEAT)
+
+ n = manual    : if you specify a value n>0 , the 'activation' of net  is repeat n-times
+ this feature can be used for experiment with evalutation ,one activation etc.....
+
+;prefix_genome_random   genome.rnd
+genome.rnd = prefix of name of genome used for creation of random genome 
+(i.e. genome.rnd0001, genome.rnd0002.....)
+when is selected the population random.
+
+prefix_generation_file specie
+if you have a champion or is reached the parameter 'neat.print_every'  the population
+has writed in a file with this name.
+
+prefix_winner    winner
+if you have a genome winner the prefix of the winner genome is 'winner'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                NOTES :
+==============================================================
+
+features:
+
+1) simulation with input/output  from java class or sequential text file;
+the class java are defined as an external exit but you can define and 
+compile thoses class from application without enter in source of package.
+
+(warning : if you change the class and the name is the same , you must
+exit from application and restart because java load the class in memory
+and for this moment i have not implemented a class loader for reload a class
+modificated in real time!)
+
+2) the fitness is only a java class and can be modify with the limitations 
+said previously
+
+3) you can view the graph of genome or load a population and select the
+genome from a population with name :
+   'prefix_generation_file'
+
+4) you can change all neat parameter  in real time without recompile,  and test
+the results.
+
+
+
+
+
+
+
+            PROBLEM OPENED :
+=======================================================================================
+
+
+1) if the net has an any internal net , not link to official net ,
+this net , in graphics view , is not viewed 
+(but this is not a problem  because the principal scope is view 
+the real net  that it comes used and not the net 'spuria')
+
+2) are not the control for many parameter if numeric or none;
+If attempted to enter an  alphabetic char in a numeric field this action can result
+in a crash of application
+
+3) the source has documented in a mixed mode : english and italian 
+language ( In future i hope chage all comment in english)
+
+4) I havent a zoom +/- for view graph (is a future implementation)
+
+5) if you create a new class for fitness , for example, you make attention
+to name : is you choise a name as 'Session'  you can replace the same 
+application because has not control for principal names;
+
+
+
+
+               C O N C L U S I O N 
+===========================================================================
+
+the 'code'  or 'source' is not good commented , and  has too many zones
+criptic,  but the first scope is verify the interest for this package and 
+all possible application for simulation of a new code, the develop
+of a population with particular parameter etc.......;
+
+This package can be extended to many direction :
+
+-the algorithm of graph has not optimized for view the graph : it can be a 
+good point of starting review the code for graph with a minimal number of cross
+edge ....
+
+-The creation of session files, class file , can be extended for control if  
+ all parameters are corrects, if are illogical request for start :
+i.e. : 
+start from random population, and start from genome with  value =  Y   
+in the same time etc..
+
+-For this moment the function of activation is a sigmoid function;
+an extension can to be to select others functions of activation (for example the function
+logical as 'xor' , 'and' , 'not' or the same 'genome'.... 
+
+-after the phase epoch , phase of learning could be added one with back-propagation
+or others types of algorithms for specialize the current net to the current
+work;
+this passage can generate a little program for resolving a pratical problem's
+much difficult to resolve in traditional way.
+
+-I have use Vector , but are the new structure : ArrayList can have a major 
+performance respect Vector;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+               
+
+

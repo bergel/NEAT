@@ -1,0 +1,128 @@
+By Kenneth Stanley
+kstanley@cs.utexas.edu
+
+Also see README_EN.TXT or README_IT.txt
+
+
+-Open a console (where you can type commands) and 
+  change to the directory C:\jes\gui
+ The compilation files assume this path!  If the path
+  changes, you much change the .bat files in \gui
+  to reflect the new path.  (In Linux, you would
+  need to edit the .sh files in /gui).
+
+-Make sure the .bat or .sh files refer to the right version
+  and path for java.  For example, the provided files may
+  try to access 1.3.1, whereas you may have 1.4.0.  In such a case,
+  all you need to do is change the paths accordingly.  There
+  should be no problem.
+
+(NOTE: more information about compiling and starting for Windows or Linux
+  is in the README_EN.TXT or README_IT.txt files)
+
+-Inside the console, provided you are in c:\jes\gui, now type 
+   run gui.MainGui
+  In linux, you type ./run.sh   gui.MainGui.
+
+-You should see the NEAT Java simulator pop up.  If you don't, check
+  the paths in RUN.bat or run.sh.
+
+-There are 4 panels at the top.  Make sure you are in the leftmost one,  
+   "jneat parameter."  
+
+-Click "Load default"
+ NEAT's default parameters are loaded.  Note that Ugo (the Java code author)
+  has set the parameters for mutate_add_node_prob and mutate_add_link_prob
+  both to 0.05.  This is fine, but it makes more sense to add links faster
+  than adding nodes, so I would edit the parameters and change the
+  mutate_add_node_prob to 0.03 and mutate_add_link_prob to 0.08 for better
+  performance.
+
+-Whether or not you edit the parameters, click "Write," which finalizes your
+   parameters.
+
+-Click on the "session parameter" tab for the "session parameter" panel
+
+-Don't worry about this looking confusing!!  You can ignore most of the
+  stuff here if you just want to get going fast.  First, click 
+  "Load sess default"
+
+-Look for the word "epoch" in the file displayed at the right.  This tells NEAT
+  how long it should run before forcing evolution to stop.  If the number
+  next to epoch is small, like 10, this will lead to premature stopping and
+  your results will be very uninteresting.  I suggest changing it to 
+  at least 100, so you can evolution run for some time.  
+
+-Whether or not you edited the parameters, click "Write sess" to register the 
+   parameter file
+
+-Now click "Load class fitness."  This loads Java code specific to the XOR
+  problem.
+
+-Click "COMPILE" to dynamically compile the fitness code
+
+-Now click "Load class data input," which loads the code for inputting data 
+  for XOR.
+
+-Click "COMPILE"
+
+-Now click "Load class data target"
+
+-Click "COMPILE"
+  NEAT is now set to run XOR experiments: all relevant code has been integrated into
+   the system.
+
+-Click on the "start simulation" tab
+
+-This panel is fun to work with and quite easy and informative.  If you click
+  "start," a run of evolution commences.  If you click "stop," it stops.
+  Depending on whether you select "text output," "graph champion," or 
+  "plot error" you will see a different kind of view of what is happening in
+  evolution.  You can switch dynamically among these options WHILE A RUN
+  IS IN PROGRESS, and after it has ended.  Allowing you to view things in 
+  real-time.
+
+-The "graph champion" option is particularly interesting.  It will show you
+  the current champion genome in real-time, so you can see evolution
+  "complexifying" as it happens generation by generation.  JNEAT will also place
+  the first winner (first genome to satisfy the fitness criteria) on the right 
+  hand side, while new champions continue to be displayed.  So you always know
+  what the winner looked like when it was first discovered.  Keep in mind
+  that one of the inputs is a bias unit!
+
+-The "plot Error" option is interesting as well, showing how fitness is changing
+  in real-time, and also how the number of species is changing. It also shows you
+  when a winner is first found.
+
+-The "text output" described the species in detail for each generation where
+  something new happened (a change in fitness or ranking of species).
+
+-I suggest running a few times and flipping among all these views of evolution.  
+  It can be quite educational.  Then try changing parameters in the
+  "jneat parameter" panel, writing them to disk, and then running more 
+  experiments.  You can get a good idea how NEAT parameters effect evolution.
+  For example, what happens if we add links very often, or hardly at all?
+  How does it change the kinds of solutions and the fitnesses that we see?
+
+-Finally, after completing at least one run, click on the "view graph" tab.
+  The interface here is pretty intuitive.  You can load individual genomes,
+  (which will be in the "data folder, in case you get lost) and see how 
+  they look and perform.  They are labelled "xwinner_[generation #]_[org #]."
+  You can also load entire populations and flip through them (they are called
+  "generation[generation #]".  Or you can load only the winners from a
+  generation (assuming there were any).  The "print_every" parameter under
+  the "jneat parameter" tab determines how often generations are output.
+  They are also forced to output if they contain at least one winner.  
+  You can also use this panel to show "link with width" graphs, which means
+  link widths are drawn proportionally to their connection strengths.  A 
+  right-hand panel is also used to show the network's actually performance
+  and fitness information.  It can be very interesting to flip through an entire
+  population and look at the corresponding networks and their performances.
+
+-See point #13 from the "UPDATE.txt" file to see how to run parity experiments
+ as well.
+
+-Also note that JNEAT is provided with classic classification experiments, but
+  NEAT is also meant to evolve controllers, so feel free to code your own
+  non-classification experiments.  Let me know (kstanley@cs.utexas.edu) if you
+  add anything interesting to the interface as this is an open source project.

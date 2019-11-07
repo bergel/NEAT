@@ -1,0 +1,77 @@
+
+An unexpected exception has been detected in native code outside the VM.
+Unexpected Signal : EXCEPTION_ACCESS_VIOLATION occurred at PC=0x0
+Function=[Unknown.]
+Library=(N/A)
+
+NOTE: We are unable to locate the function name symbol for the error
+      just occurred. Please refer to release documentation for possible
+      reason and solutions.
+
+
+Current Java thread:
+	at sun.awt.windows.Win32OffScreenSurfaceData.nativeDispose(Native Method)
+	at sun.awt.windows.Win32OffScreenSurfaceData.dispose(Unknown Source)
+	at sun.awt.windows.Win32OffScreenSurfaceData.finalize(Unknown Source)
+	at java.lang.ref.Finalizer.invokeFinalizeMethod(Native Method)
+	at java.lang.ref.Finalizer.runFinalizer(Unknown Source)
+	at java.lang.ref.Finalizer.access$100(Unknown Source)
+	at java.lang.ref.Finalizer$FinalizerThread.run(Unknown Source)
+
+Dynamic libraries:
+0x00400000 - 0x00406000 	C:\WINDOWS\system32\java.exe
+0x77F50000 - 0x77FF9000 	C:\WINDOWS\System32\ntdll.dll
+0x77E60000 - 0x77F45000 	C:\WINDOWS\system32\kernel32.dll
+0x77DD0000 - 0x77E5B000 	C:\WINDOWS\system32\ADVAPI32.dll
+0x77CC0000 - 0x77D35000 	C:\WINDOWS\system32\RPCRT4.dll
+0x77C10000 - 0x77C63000 	C:\WINDOWS\system32\MSVCRT.dll
+0x6D330000 - 0x6D442000 	C:\Program Files\Java\j2re1.4.0\bin\client\jvm.dll
+0x77D40000 - 0x77DCD000 	C:\WINDOWS\system32\USER32.dll
+0x77C70000 - 0x77CB0000 	C:\WINDOWS\system32\GDI32.dll
+0x76B40000 - 0x76B6C000 	C:\WINDOWS\system32\WINMM.dll
+0x6D1D0000 - 0x6D1D7000 	C:\Program Files\Java\j2re1.4.0\bin\hpi.dll
+0x6D300000 - 0x6D30D000 	C:\Program Files\Java\j2re1.4.0\bin\verify.dll
+0x6D210000 - 0x6D228000 	C:\Program Files\Java\j2re1.4.0\bin\java.dll
+0x6D320000 - 0x6D32D000 	C:\Program Files\Java\j2re1.4.0\bin\zip.dll
+0x6D000000 - 0x6D0F6000 	C:\Program Files\Java\j2re1.4.0\bin\awt.dll
+0x73000000 - 0x73023000 	C:\WINDOWS\system32\WINSPOOL.DRV
+0x76390000 - 0x763AA000 	C:\WINDOWS\system32\IMM32.dll
+0x771B0000 - 0x772CA000 	C:\WINDOWS\system32\ole32.dll
+0x5AD70000 - 0x5ADA4000 	C:\WINDOWS\system32\uxtheme.dll
+0x6D180000 - 0x6D1D0000 	C:\Program Files\Java\j2re1.4.0\bin\fontmanager.dll
+0x69000000 - 0x69211000 	C:\WINDOWS\system32\atioglxx.dll
+0x10000000 - 0x1000E000 	C:\Program Files\Sony\Jog Dial Utility\WMHook.dll
+0x63000000 - 0x63014000 	C:\WINDOWS\System32\SynTPFcs.dll
+0x77C00000 - 0x77C07000 	C:\WINDOWS\system32\VERSION.dll
+0x73760000 - 0x737A5000 	C:\WINDOWS\system32\ddraw.dll
+0x73BC0000 - 0x73BC6000 	C:\WINDOWS\system32\DCIMAN32.dll
+0x6D130000 - 0x6D152000 	C:\Program Files\Java\j2re1.4.0\bin\dcpr.dll
+0x773D0000 - 0x77BC4000 	C:\WINDOWS\system32\SHELL32.DLL
+0x772D0000 - 0x77333000 	C:\WINDOWS\system32\SHLWAPI.dll
+0x71950000 - 0x71A34000 	C:\WINDOWS\WinSxS\x86_Microsoft.Windows.Common-Controls_6595b64144ccf1df_6.0.0.0_x-ww_1382d70a\comctl32.dll
+0x77340000 - 0x773CB000 	C:\WINDOWS\system32\comctl32.dll
+0x763B0000 - 0x763F5000 	C:\WINDOWS\system32\COMDLG32.DLL
+0x75F40000 - 0x75F5D000 	C:\WINDOWS\system32\appHelp.dll
+0x76FD0000 - 0x77048000 	C:\WINDOWS\system32\CLBCATQ.DLL
+0x77120000 - 0x771AB000 	C:\WINDOWS\system32\OLEAUT32.dll
+0x77050000 - 0x77115000 	C:\WINDOWS\system32\COMRes.dll
+0x76620000 - 0x7666E000 	C:\WINDOWS\System32\cscui.dll
+0x76600000 - 0x7661B000 	C:\WINDOWS\System32\CSCDLL.dll
+0x75F80000 - 0x7607C000 	C:\WINDOWS\System32\browseui.dll
+0x76670000 - 0x76754000 	C:\WINDOWS\system32\SETUPAPI.dll
+0x52880000 - 0x52923000 	C:\WINDOWS\system32\USERENV.dll
+0x76990000 - 0x769B4000 	C:\WINDOWS\system32\ntshrui.dll
+0x76B20000 - 0x76B35000 	C:\WINDOWS\system32\ATL.DLL
+0x71C20000 - 0x71C6F000 	C:\WINDOWS\system32\NETAPI32.dll
+0x769C0000 - 0x76B09000 	C:\WINDOWS\System32\shdocvw.dll
+0x76C90000 - 0x76CB2000 	C:\WINDOWS\system32\imagehlp.dll
+0x6D510000 - 0x6D58C000 	C:\WINDOWS\system32\DBGHELP.dll
+0x76BF0000 - 0x76BFB000 	C:\WINDOWS\system32\PSAPI.DLL
+
+Local Time = Mon Jun 24 17:59:37 2002
+Elapsed Time = 2363
+#
+# The exception above was detected in native code outside the VM
+#
+# Java VM: Java HotSpot(TM) Client VM (1.4.0-b92 mixed mode)
+#

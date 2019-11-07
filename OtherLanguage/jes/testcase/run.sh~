@@ -1,0 +1,12 @@
+#!/bin/sh
+echo   esecuzione    $1
+CLASSPATH=/home/jes
+CLASSPATH=$CLASSPATH:/home/jdk1.3.1_01
+CLASSPATH=$CLASSPATH:/home/jdk1.3.1_01/jre/lib/rt.jar
+CLASSPATH=$CLASSPATH:/home/jdk1.3.1_01/lib/tools.jar
+CLASSPATH=$CLASSPATH:/home/jes/gui
+export CLASSPATH
+/home/jdk1.3.1_01/bin/java  $1
+
+
+

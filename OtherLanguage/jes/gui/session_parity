@@ -1,0 +1,21 @@
+; 
+; example of skeleton file  
+;  is a XOR simulation with input from file
+data_from_file   Y
+;data_from_class Y
+data_input       f_inp_parity
+data_target      f_out_parity
+class_compute_fitness fitness_parity
+start_from_genome Y
+genome_file     genome_parity
+;start_from_random_population Y
+;start_from_old_population Y
+population_file primitive
+;maximum_unit    5
+;recursion       N
+;probability_of_connection 20
+epoch 100
+activation 0
+;prefix_genome_random genome.rnd 
+prefix_generation_file generation
+prefix_winner    winner
