@@ -114,8 +114,8 @@ NEIndividualTest >> testExamplePaper [
 	self assert: ind numberOfOutputs equals: 1.
 	self assert: ind numberOfNodes equals: 5.
 	
-	self assert: (ind evaluate: #(0.1 0.2 0.3)) equals: #(2.3403625580534237).
-	self assert: (ind evaluate: #(3 2 1)) equals: #(2.579189655589754).
+	self assert: (ind evaluate: #(0.1 0.2 0.3)) equals: #(0.9121651376265391).
+	self assert: (ind evaluate: #(3 2 1)) equals: #(0.9295101930119634).
 
 "	self assert: ind nodes first connectedNodes equals: { ind nodes fourth . ind nodes fifth }.
 	self assert: ind nodes second connectedNodes equals: { ind nodes fourth . ind nodes fifth }.

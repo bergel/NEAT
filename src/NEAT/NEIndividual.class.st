@@ -43,8 +43,8 @@ NEIndividual >> addInputNode [
 { #category : #adding }
 NEIndividual >> addNode: aNode [
 	self resetNetwork.
-	nodes add: aNode.
-	aNode id: nodes size.
+	self addRawNode: aNode.
+	aNode id: nodes size
 ]
 
 { #category : #adding }
@@ -56,6 +56,11 @@ NEIndividual >> addOutputNode [
 		newWeight := random next * 4 - 2.
 		self addConnection: (NEConnection new in: ino id; out: self numberOfNodesWithBias; weight: newWeight; makeEnabled; innovationNumber: 1)
 	]
+]
+
+{ #category : #adding }
+NEIndividual >> addRawNode: aNode [
+	nodes add: aNode
 ]
 
 { #category : #'as yet unclassified' }

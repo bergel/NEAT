@@ -163,9 +163,13 @@ NEAT >> runOneGeneration [
 	newPopulation := OrderedCollection new.
 	populationSize
 		timesRepeat: [ 
-			ind1 := self selectIndividual.
-			ind2 := self selectIndividual: ind1 species individuals.
-			newInd := self crossoverBetween: ind1 and: ind2.
+			random next <= 0.9
+				ifTrue: [
+					ind1 := self selectIndividual.
+					ind2 := self selectIndividual: ind1 species individuals.
+					newInd := self crossoverBetween: ind1 and: ind2 ]
+				ifFalse: [
+					newInd := self selectIndividual copy ].
 			self doMutate: newInd.
 			newPopulation add: newInd.
 			newInd computeFitness: fitness ].
