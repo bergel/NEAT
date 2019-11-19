@@ -1,0 +1,80 @@
+
+
+DIFFERENCES FROM ORIGINAL VERSION OF NEAT
+========================================
+
+1) i have rewrite of is_recur for eliminate (i hope)
+   looping ; the new routine has name :
+	has_a_path(.....)
+
+2) i have rewrite the random creationo a genome for a random
+   population
+
+3) i have rewrite compute of depth of a net because in 
+   neat has an possible error;
+   (view the example 'genome.ex4' : in original
+   neat give a depth of 3 but the real depth is 5
+   and this cause a wrong cycle of relax in eval......)
+
+4) add a new function for control is a net is stable or not
+   (the code is more luminosity of my my explanation in English!!)
+
+5) the NNode has a two field for control the above function:
+	inner_level
+        is_traversed
+
+6) i have added a control in genome::verify() for control
+   if are genes , nodes traits;
+
+7) i have rewrite the mate_singlepoint because in neat
+   i have found one case with a product of two genome
+   is a net without output nodes ;
+   This choise originate a null pointer in a java code
+   when  point to vector output.
+
+
+8) in xor evaluate i have added in xor_evaluate i correct 
+   from :
+
+        ....................................
+        ....................................
+	else 
+	{
+		//The network is flawed (shouldnt happen)
+		errorsum=999.0;
+		org->fitness=0.001;
+	}
+        ....................................
+
+to
+        ....................................
+        ....................................
+	else 
+	{
+		//The network is flawed (shouldnt happen)
+		errorsum=999.0;
+		org->fitness=0.001;
+		org->error=errorsum;
+	}
+        ....................................
+
+
+    in neat c++ and in java version
+
+9)
+    I have rewrite the method Species::count_offspring();
+    in java language are the case with value skim == 1.0
+    but the number has a fractional part <  x^(-18)
+    thus the test give result = 1.0 but is lost if  the    
+    fraction part < x^(-18)
+    in C++ i have changed from '> 1.0'  to '>= 1.0'
+    For java i have modify others choses because the fmod not exist
+    and the IEEERemainder is not equal and give the rest
+    of number < 1 in division of  1.0 not correct.
+
+
+10) i have utilize gaussrand() version of java and not 
+    the gaussrand() of neat
+
+
+

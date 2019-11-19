@@ -1,0 +1,23 @@
+#!/bin/sh
+echo '  Start compile all members in this directory .....wait please...'
+JAVA_LOCATION=/home/jdk1.3.1_01
+CLASSPATH=/home/jes
+CLASSPATH=$CLASSPATH:$JAVA_LOCATION'/jre/lib/rt.jar'
+CLASSPATH=$CLASSPATH:$JAVA_LOCATION'/lib/tools.jar'
+export CLASSPATH
+echo '  Curr location of java :  ' $JAVA_LOCATION
+echo '  Curr classpath :  ' $CLASSPATH
+echo '  Compile Generation....'
+/home/jdk1.3.1_01/bin/javac  Generation.java
+echo '  Compile Grafi....'
+/home/jdk1.3.1_01/bin/javac  Grafi.java
+echo '  Compile MainGui....'
+/home/jdk1.3.1_01/bin/javac  MainGui.java
+echo '  Compile Parameter....'
+/home/jdk1.3.1_01/bin/javac  Parameter.java
+echo '  Compile Session....'
+/home/jdk1.3.1_01/bin/javac  Session.java
+echo '  Compilazione terminata ' 
+
+
+

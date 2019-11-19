@@ -1,0 +1,83 @@
+
+Update  : 22 / Giugno / 2002   JnEAT VERSION 1.2.1
+
+
+
+1) the name of species is setted to default name : 'generation'||nn
+
+2) the winner name is 'winner'||generation number||'_'||genome_id
+
+3) the generation file ( point 1) is 'write' if are found a winner and/or if
+   is expired 'print_every' parameter;
+
+4) the log window can be modify 
+
+5) the 'Start Simulation' panel , when select 'graph champion' during 'start'
+   or 'start from last' phase, draw two graph :
+    a)	first winner genome
+    b)  the current genome with the best fitness  
+
+6) in plot i have added a line for fitness of winner ; this line can be replace by
+   the maximum fitness found;
+   when has a winner the color change
+
+7) the graphics and plotting routine it is recorrect for a wrong value numeric in plotting
+
+8) the graph draw is recorrect
+
+9) I have eliminate a 'Nan' condition in chartXY.update (Nan is : '1/0')
+
+10) I have move the running and compute fitness / error from panel 'generatioo' to  'View graph' panel;
+    now they are two panel:
+    a) the genome executed (center)
+    b) the text of statistics informations (right): fitness,error,weight,structure
+
+11) the panel 'View graph' has a button for select :
+    view net with  'width' of connection 
+    view normal link with a 'width' = 1
+    view fitness/error/population
+    view normal information
+
+12) is possible splitting from graph,curce text in 'generation' panel during simulation and at
+    end of simulation (last results).
+    
+
+
+13) I have added a sample for 3 input and 1 out for a classic problem :
+	the Parity Problem
+    (the session file if session_parity)
+
+For test the 'parity problem' with I/O from file :
+
+a) in panel 'Session parameter ' load session file : 
+         'session_parity' (press button 'Load sess file...' and select the file 'session_parity')
+         
+b) press the button 'Write sess'
+c) press button  'Load sess default'
+d) press button  'Load class fitness'
+e) press button  'compile'
+
+f) now you are ready to start the generation....
+
+(i have found a solution with number of epoch < 80! : 'niente male !!' ).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
