@@ -8,6 +8,11 @@ Class {
 	#category : #NEAT
 }
 
+{ #category : #accessing }
+NESpecies >> averageFitness [
+	^ (self individuals collect: #fitness) average
+]
+
 { #category : #ui }
 NESpecies >> gtInspectorViewIn: composite [
 	<gtInspectorPresentationOrder: -10>
@@ -34,6 +39,11 @@ NESpecies >> individuals [
 { #category : #accessing }
 NESpecies >> individuals: anObject [
 	individuals := anObject
+]
+
+{ #category : #accessing }
+NESpecies >> maxFitness [
+	^ (self individuals collect: #fitness) max
 ]
 
 { #category : #'as yet unclassified' }

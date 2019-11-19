@@ -31,6 +31,14 @@ NELog >> generation: anObject [
 	generation := anObject
 ]
 
+{ #category : #ui }
+NELog >> gtInspectorViewIn: composite [
+	<gtInspectorPresentationOrder: -10>
+	composite roassal2
+		title: 'View';
+		initializeView: [ 	speciation visualize ]
+]
+
 { #category : #accessing }
 NELog >> maxFitness [
 	^ maxFitness
