@@ -5,8 +5,11 @@ Class {
 		'id',
 		'kind',
 		'connectionsCache',
-		'value',
-		'innovationNumber'
+		'innovationNumber',
+		'numberOfInputs',
+		'zValue',
+		'numberOfReceivedValues',
+		'result'
 	],
 	#category : #NEAT
 }
@@ -34,16 +37,29 @@ NENode >> copy [
 
 { #category : #'public access' }
 NENode >> evaluate: aValue [
-	self isInput ifFalse: [
+"	self isInput ifFalse: [
 		self assert: [ aValue >= 0 ].
-		self assert: [ aValue <= 1 ] ].
+		self assert: [ aValue <= 1 ] ]."
 
-	"If we are an output node, then we sum the value"
-	self isOutput ifTrue: [ value := value + aValue. ^ self ].
+	"We just received a value. We add it to zValue."
+	zValue := zValue + aValue.
+
+	"We say we received a new value"
+	numberOfReceivedValues := numberOfReceivedValues + 1.
+
+	self haltIf: [ numberOfReceivedValues > numberOfInputs ].
+
+
+	"If we received the number of zValues, then we can compute the sigmoid, and keep it."
+	numberOfReceivedValues = numberOfInputs ifFalse: [ ^ self ].
+	result := self isInput ifTrue: [ zValue ] ifFalse: [ self sigmoid: zValue ].
 	
-	"else, we simply pass it" 
-	connectionsCache do: [ :assoc |
-		assoc value evaluate: (self sigmoid: assoc key * aValue) ]
+	"We go here only if not output"
+	connectionsCache do: [ :assoc | assoc value evaluate: result * assoc key ]
+
+
+
+	
 ]
 
 { #category : #accessing }
@@ -54,6 +70,11 @@ NENode >> id [
 { #category : #accessing }
 NENode >> id: anInteger [
 	id := anInteger
+]
+
+{ #category : #'as yet unclassified' }
+NENode >> increaseNumberOfInputs [
+	numberOfInputs := numberOfInputs + 1
 ]
 
 { #category : #accessing }
@@ -91,6 +112,12 @@ NENode >> kind: aKind [
 	kind := aKind
 ]
 
+{ #category : #accessing }
+NENode >> numberOfInputs [
+	"Return the number of inputs the nodes accepts"
+	^ numberOfInputs
+]
+
 { #category : #printing }
 NENode >> printOn: str [ 
 	super printOn: str.
@@ -106,7 +133,18 @@ NENode >> printOn: str [
 { #category : #initialization }
 NENode >> resetConnections [
 	connectionsCache := OrderedCollection new.
-	value := 0.
+	zValue := 0.
+	numberOfInputs := 0.
+	numberOfReceivedValues := 0.
+	result := 0.
+	self isInput 
+		ifTrue: [ numberOfInputs := 1 ]
+		
+]
+
+{ #category : #'public access' }
+NENode >> result [
+	^ result
 ]
 
 { #category : #initialization }
@@ -131,5 +169,5 @@ NENode >> sigmoid: z [
 
 { #category : #evaluating }
 NENode >> value [
-	^ value
+	^ zValue
 ]

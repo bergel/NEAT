@@ -167,6 +167,22 @@ NEIndividualTest >> testInitialConnections2 [
 	
 ]
 
+{ #category : #'tests mutation operators' }
+NEIndividualTest >> testNumberOfInputs [
+
+	| ind outputNode |
+	ind := NEIndividual new.
+	ind seed: 42.
+	ind addInputNode; addInputNode; addInputNode.
+	ind addOutputNode.
+
+	outputNode := ind outputNodes first.
+	self assert: outputNode numberOfInputs equals: 0.
+	
+	ind buildNetwork.
+	self assert: outputNode numberOfInputs equals: 4
+]
+
 { #category : #tests }
 NEIndividualTest >> testSimpleIndividual [
 

@@ -69,7 +69,9 @@ NEIndividual >> buildNetwork [
 	connections
 		do: [ :c | 
 			c isEnabled
-				ifTrue: [ (nodes at: c in) connect: (nodes at: c out) weight: c weight ] ]
+				ifTrue: [ 
+					(nodes at: c in) connect: (nodes at: c out) weight: c weight.
+					(nodes at: c out) increaseNumberOfInputs ] ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -106,7 +108,7 @@ NEIndividual >> evaluate: anArray [
 	
 	"We provide 1 to the first node, which is considered as the bias node"
 	self inputNodes with: #(1), anArray do: [ :n :aValue | n evaluate: aValue ].
-	^ self outputNodes collect: [ :n | n sigmoid: n value ] as: Array
+	^ self outputNodes collect: [ :n | n result ] as: Array
 ]
 
 { #category : #accessing }

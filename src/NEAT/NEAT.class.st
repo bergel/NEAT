@@ -26,6 +26,8 @@ NEAT >> buildInitialPopuplation [
 		i random: random.
 		numberOfInputs timesRepeat: [ i addInputNode ].
 		numberOfOutputs timesRepeat: [ i addOutputNode ].
+		NEAddNodeMutationOperation new on: i.
+"		NEAddNodeMutationOperation new on: i."
 		population add: i
 		]
 ]
@@ -44,8 +46,8 @@ NEAT >> crossoverBetween: ind1 and: ind2 [
 
 { #category : #initialization }
 NEAT >> defaultConfig [
-	config := Dictionary new.
-	self for: NEConnectionWeightMutationOperation prob: 0.15.
+	self resetConfig.
+	self for: NEConnectionWeightMutationOperation prob: 0.6.
 	self for: NEAddConnectionMutationOperation prob: 0.1.
 	self for: NEAddNodeMutationOperation prob: 0.1
 ]
@@ -116,7 +118,7 @@ NEAT >> initialize [
 	numberOfInputs := 2.
 	numberOfOutputs := 1.
 	
-	populationSize := 100.
+	populationSize := 300.
 	random := Random seed: 42.
 	
 	logs := OrderedCollection new.
@@ -136,6 +138,31 @@ NEAT >> numberOfGenerations [
 { #category : #accessing }
 NEAT >> numberOfGenerations: anObject [
 	numberOfGenerations := anObject
+]
+
+{ #category : #accessing }
+NEAT >> numberOfInputs [
+	^ numberOfInputs
+]
+
+{ #category : #accessing }
+NEAT >> numberOfInputs: anObject [
+	numberOfInputs := anObject
+]
+
+{ #category : #accessing }
+NEAT >> numberOfOutputs [
+	^ numberOfOutputs
+]
+
+{ #category : #accessing }
+NEAT >> numberOfOutputs: anObject [
+	numberOfOutputs := anObject
+]
+
+{ #category : #initialization }
+NEAT >> resetConfig [
+	config := Dictionary new
 ]
 
 { #category : #accessing }
@@ -163,13 +190,17 @@ NEAT >> runOneGeneration [
 	newPopulation := OrderedCollection new.
 	populationSize
 		timesRepeat: [ 
-			random next <= 0.9
+			
+			"The following lines use the crossover"
+			random next <= 0.5
 				ifTrue: [
 					ind1 := self selectIndividual.
 					ind2 := self selectIndividual: ind1 species individuals.
 					newInd := self crossoverBetween: ind1 and: ind2 ]
 				ifFalse: [
 					newInd := self selectIndividual copy ].
+				
+			"newInd := self selectIndividual copy."
 			self doMutate: newInd.
 			newPopulation add: newInd.
 			newInd computeFitness: fitness ].

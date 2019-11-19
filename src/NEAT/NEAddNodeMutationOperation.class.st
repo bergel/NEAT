@@ -11,7 +11,7 @@ NEAddNodeMutationOperation >> on: anIndividual [
 	relevantConnections := anIndividual connections select: #isEnabled.
 	relevantConnections ifEmpty: [ ^self ].
 	
-	c := relevantConnections atRandom: random.
+	c := relevantConnections atRandom: anIndividual random.
 	self assert: [ c isEnabled ].
 	c makeDisabled.
 	(anIndividual addHiddenNode) innovationNumber: InnovationNumber.
