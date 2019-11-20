@@ -49,7 +49,7 @@ NESpeciesTest >> testBasicOnIndividuals [
 	sp := NESpeciation new.
 	sp threshold: 4.
 	sp process: individuals.
-	self assert: sp numberOfSpecies equals: 3.
+	self assert: sp numberOfSpecies equals: 8.
 "	self assert: (sp groups allSatisfy: [ :s | s numberOfIndividuals = 10 ])"
 
 ]
@@ -82,7 +82,7 @@ NESpeciesTest >> testBasicOnIndividuals02 [
 
 	sp := NESpeciation new.
 	sp process: individuals.
-	self assert: sp numberOfSpecies equals: 30.
+	self assert: sp numberOfSpecies equals: 29.
 	"self assert: (sp groups allSatisfy: [ :s | s numberOfIndividuals = 20 ])"
 
 ]
