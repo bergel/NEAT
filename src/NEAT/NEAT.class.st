@@ -179,8 +179,15 @@ NEAT >> run [
 	self doSpeciation.
 	self computeFitnesses.
 	self doLog.
-	numberOfGenerations timesRepeat: [ 
-		self runOneGeneration ]
+	
+	'Running the NEAT algorithm'
+	displayProgressFrom: 0 to: numberOfGenerations
+	during: [:bar |
+		1 to: numberOfGenerations do: [:x | 
+			bar value: x.
+			self runOneGeneration. ] ].
+	
+
 ]
 
 { #category : #'as yet unclassified' }
