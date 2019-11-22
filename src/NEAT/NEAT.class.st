@@ -233,7 +233,7 @@ NEAT >> selectIndividual: someIndividuals [
 	^ winner
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #ui }
 NEAT >> visualizeFitness [
 
 	| g d |
