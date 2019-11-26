@@ -6,7 +6,8 @@ Class {
 		'speciation',
 		'minFitness',
 		'maxFitness',
-		'averageFitness'
+		'averageFitness',
+		'bestIndividual'
 	],
 	#category : #NEAT
 }
@@ -19,6 +20,16 @@ NELog >> averageFitness [
 { #category : #accessing }
 NELog >> averageFitness: anObject [
 	averageFitness := anObject
+]
+
+{ #category : #accessing }
+NELog >> bestIndividual [
+	^ bestIndividual
+]
+
+{ #category : #accessing }
+NELog >> bestIndividual: anObject [
+	bestIndividual := anObject
 ]
 
 { #category : #accessing }

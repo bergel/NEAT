@@ -61,6 +61,7 @@ NEAT >> doLog [
 	log minFitness: (population collect: #fitness) min.
 	log maxFitness: (population collect: #fitness) max.
 	log averageFitness: ((population collect: #fitness) average asFloat round: 3).
+	log bestIndividual: self result.
 	logs add: log.
 ]
 
