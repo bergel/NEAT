@@ -160,6 +160,16 @@ NEAT >> numberOfOutputs: anObject [
 	numberOfOutputs := anObject
 ]
 
+{ #category : #accessing }
+NEAT >> populationSize [
+	^ populationSize
+]
+
+{ #category : #accessing }
+NEAT >> populationSize: anObject [
+	populationSize := anObject
+]
+
 { #category : #initialization }
 NEAT >> resetConfig [
 	config := Dictionary new
@@ -180,14 +190,21 @@ NEAT >> run [
 	self computeFitnesses.
 	self doLog.
 	
-	'Running the NEAT algorithm'
-	displayProgressFrom: 0 to: numberOfGenerations
-	during: [:bar |
-		1 to: numberOfGenerations do: [:x | 
-			bar value: x.
-			self runOneGeneration. ] ].
+	self runFor: numberOfGenerations
+
 	
 
+]
+
+{ #category : #initialization }
+NEAT >> runFor: nbGen [
+
+	'Running the NEAT algorithm'
+	displayProgressFrom: 0 to: nbGen
+	during: [:bar |
+		1 to: nbGen do: [:x | 
+			bar value: x.
+			self runOneGeneration. ] ].
 ]
 
 { #category : #'as yet unclassified' }
