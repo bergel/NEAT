@@ -46,31 +46,32 @@ NENeatTest >> testBasic [
 { #category : #tests }
 NENeatTest >> testBasic3XOR [
 
-	| neat diff |
+	| neat diff r |
 	neat := NEAT new.
 	neat fitness: [ :ind | 
-		| score |
-		score := 0.
+		| loss |
+		loss := 0.
 		#(#(0 0 0) #(0 1 1) #(1 0 1) #(1 1 0)) do: [ :tuple |
 			diff := (ind evaluate: (tuple first: 2)) first - tuple last.
-			score := score + (diff * diff) ]. 
-		(score / -4) asFloat ].
+			loss := loss + (diff * diff) ]. 
+		(loss / -4) asFloat ].
 	
 "	neat resetConfig.
 	neat for: NEConnectionWeightMutationOperation prob: 0.99.
 "
 	neat numberOfGenerations: 100.
 	neat run.
-	self halt. 
 	
+	r := 
 	[ :ind | 
 		| score |
 		score := 0.
 		#(#(0 0 0) #(0 1 0) #(1 0 0) #(1 1 1)) do: [ :tuple |
-			((ind evaluate: (tuple first: 2)) first - tuple last) abs <= 0.1 ifTrue: [ score := score + 1 ] ]. 
+			((ind predict: (tuple first: 2)) = tuple last) ifTrue: [ score := score + 1 ] ]. 
 		score ] value: neat result.
 	
-	neat result evaluate: #(0 0).
+	self assert: r equals: 3.
+	neat result predict: #(0 1).
 	
 	
 ]
@@ -78,15 +79,14 @@ NENeatTest >> testBasic3XOR [
 { #category : #tests }
 NENeatTest >> testBasic4BinaryToInteger [
 
-	| neat res |
+	| neat res r |
 	neat := NEAT new.
 	neat numberOfOutputs: 4.
 	neat fitness: [ :ind | 
 		| score |
 		score := 0.
 		#(#(0 0 0) #(0 1 1) #(1 0 2) #(1 1 3)) do: [ :tuple |
-			res := ind evaluate: (tuple first: 2).
-			((res indexOf: res max) - 1 - tuple last) = 0 ifTrue: [ score := score + 1 ]
+			((ind predict: (tuple first: 2)) = tuple last) ifTrue: [ score := score + 1 ]
 			].
 		score ].
 	
@@ -94,23 +94,17 @@ NENeatTest >> testBasic4BinaryToInteger [
 	neat for: NEConnectionWeightMutationOperation prob: 0.99.
 "
 	neat numberOfGenerations: 100.
-	neat run.
-	self halt. 
+	neat run. 
 	
+	r :=
 	[ :ind | 
 		| score |
 		score := 0.
 		#(#(0 0 0) #(0 1 1) #(1 0 2) #(1 1 3)) do: [ :tuple |
-			res := ind evaluate: (tuple first: 2).
-			((res indexOf: res max) - 1 - tuple last) = 0 ifTrue: [ score := score + 1 ]
+			((ind predict: (tuple first: 2)) = tuple last) ifTrue: [ score := score + 1 ]
 			].
 		score ] value: neat result.
-"	
-	| ttt |	
-	ttt := neat result evaluate: #(1 0).
-	(ttt indexOf: ttt max) - 1
-	
-	"
+	self assert: r equals: 4
 ]
 
 { #category : #tests }
@@ -124,32 +118,16 @@ NENeatTest >> testBasic5BinaryToIntegerLarger [
 		| score |
 		score := 0.
 		#(#(0 0 0 0) #(0 0 1 1) #(0 1 0 2) #(0 1 1 3) #(1 0 0 4) #(1 0 1 5) #(1 1 0 6) #(1 1 1 7)) do: [ :tuple |
-			res := ind evaluate: tuple allButLast.
-			((res indexOf: res max) - 1 - tuple last) = 0 ifTrue: [ score := score + 1 ]
-			].
+			((ind predict: tuple allButLast) = tuple last) ifTrue: [ score := score + 1 ] ].
 		score ].
 	
 "	neat resetConfig.
 	neat for: NEConnectionWeightMutationOperation prob: 0.99.
 "
-	neat numberOfGenerations: 60.
+	neat numberOfGenerations: 80.
 	neat run.
-	self halt. 
 	
-	[ :ind | 
-		| score |
-		score := 0.
-		#(#(0 0 0) #(0 1 1) #(1 0 2) #(1 1 3)) do: [ :tuple |
-			res := ind evaluate: (tuple first: 2).
-			((res indexOf: res max) - 1 - tuple last) = 0 ifTrue: [ score := score + 1 ]
-			].
-		score ] value: neat result.
-"	
-	| ttt |	
-	ttt := neat result evaluate: #(1 0).
-	(ttt indexOf: ttt max) - 1
-	
-	"
+	self assert: neat logs last maxFitness equals: 7
 ]
 
 { #category : #tests }
