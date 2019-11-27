@@ -41,7 +41,9 @@ NESpeciation >> process: someIndividuals [
 	g := someIndividuals groupedBy: [ :individual | 
 		| seq |
 		seq := individual innovationNumberSequence.
-		(seq last: (threshold min: seq size - 1)) first ].
+		seq size < 2 
+			ifTrue: [ seq first ]
+			ifFalse: [ (seq last: (threshold min: seq size - 1)) first ] ]. 
 
 	groups := g associations collect: [ :assoc | NESpecies new individuals: assoc value; id: assoc key ].
 	groups do: [ :aSpecies |

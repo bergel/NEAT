@@ -23,7 +23,7 @@ NENeatTest >> testBasic [
 		#(#(0 0 0) #(0 1 0) #(1 0 0) #(1 1 1)) do: [ :tuple |
 			((ind evaluate: (tuple first: 2)) first - tuple last) abs <= 0.1 ifTrue: [ score := score + 1 ] ]. 
 		score ]."
-	neat numberOfGenerations: 50.
+	neat numberOfGenerations: 130.
 	neat run.
 	
 	[ :ind | 
@@ -120,12 +120,155 @@ NENeatTest >> testBasic5BinaryToIntegerLarger [
 		#(#(0 0 0 0) #(0 0 1 1) #(0 1 0 2) #(0 1 1 3) #(1 0 0 4) #(1 0 1 5) #(1 1 0 6) #(1 1 1 7)) do: [ :tuple |
 			((ind predict: tuple allButLast) = tuple last) ifTrue: [ score := score + 1 ] ].
 		score ].
-	
-"	neat resetConfig.
-	neat for: NEConnectionWeightMutationOperation prob: 0.99.
-"
-	neat numberOfGenerations: 60.
+	neat numberOfGenerations: 300.
 	neat run.
 	
-	self assert: neat logs last maxFitness equals: 6
+	self assert: neat logs last maxFitness equals: 5
+]
+
+{ #category : #tests }
+NENeatTest >> testBasicAND [
+
+	| neat diff precision |
+	neat := NEAT new.
+	neat fitness: [ :ind | 
+		| score |
+		score := 0.
+		#(#(0 0 0) #(0 1 0) #(1 0 0) #(1 1 1)) do: [ :tuple |
+			diff := (ind evaluate: (tuple first: 2)) first - tuple last.
+			score := score + (diff * diff) ]. 
+		(score / -4) asFloat ].
+	
+	neat numberOfGenerations: 130.
+	neat run.
+
+	precision := 0.15.
+	self assert: ((neat result evaluate: #(0 0)) first - 0) < precision.
+	self assert: ((neat result evaluate: #(0 1)) first - 0) < precision.
+	self assert: ((neat result evaluate: #(1 0)) first - 0) < precision.
+	self assert: ((neat result evaluate: #(1 1)) first - 1) < precision.
+	
+	
+	 
+]
+
+{ #category : #tests }
+NENeatTest >> testBasicANDSecondVersion [
+
+	| neat result |
+	neat := NEAT new.
+	neat numberOfOutputs: 2.
+	neat fitness: [ :ind | 
+		| score |
+		score := 0.
+		#(#(0 0 0) #(0 1 0) #(1 0 0) #(1 1 1)) do: [ :tuple |
+			result := (ind predict: (tuple first: 2)).
+			result = tuple last ifTrue: [ score := score + 1 ] ]. 
+		(score / 4) asFloat ].
+	
+	neat numberOfGenerations: 130.
+	neat run.
+	
+	self assert: (neat result predict: #(0 0)) equals: 0.
+	self assert: (neat result predict: #(0 1)) equals: 0.
+	self assert: (neat result predict: #(1 0)) equals: 0.
+	self assert: (neat result predict: #(1 1)) equals: 1. 
+]
+
+{ #category : #tests }
+NENeatTest >> testBasicOR [
+
+	| neat diff precision |
+	neat := NEAT new.
+	neat fitness: [ :ind | 
+		| score |
+		score := 0.
+		#(#(0 0 0) #(0 1 1) #(1 0 1) #(1 1 1)) do: [ :tuple |
+			diff := (ind evaluate: (tuple first: 2)) first - tuple last.
+			score := score + (diff * diff) ]. 
+		(score / -4) asFloat ].
+	
+	neat numberOfGenerations: 130.
+	neat run.
+
+	precision := 0.15.
+	self assert: ((neat result evaluate: #(0 0)) first - 0) < precision.
+	self assert: ((neat result evaluate: #(0 1)) first - 1) < precision.
+	self assert: ((neat result evaluate: #(1 0)) first - 1) < precision.
+	self assert: ((neat result evaluate: #(1 1)) first - 1) < precision.
+	
+	
+	 
+]
+
+{ #category : #tests }
+NENeatTest >> testBasicORSecondVersion [
+
+	| neat result |
+	neat := NEAT new.
+	neat numberOfOutputs: 2.
+	neat fitness: [ :ind | 
+		| score |
+		score := 0.
+		#(#(0 0 0) #(0 1 1) #(1 0 1) #(1 1 1)) do: [ :tuple |
+			result := (ind predict: (tuple first: 2)).
+			result = tuple last ifTrue: [ score := score + 1 ] ]. 
+		(score / 4) asFloat ].
+	
+	neat numberOfGenerations: 130.
+	neat run.
+	
+	self assert: (neat result predict: #(0 0)) equals: 0.
+	self assert: (neat result predict: #(0 1)) equals: 1.
+	self assert: (neat result predict: #(1 0)) equals: 1.
+	self assert: (neat result predict: #(1 1)) equals: 1. 
+]
+
+{ #category : #tests }
+NENeatTest >> testBasicXOR [
+
+	| neat diff precision |
+	neat := NEAT new.
+	neat fitness: [ :ind | 
+		| score |
+		score := 0.
+		#(#(0 0 0) #(0 1 1) #(1 0 1) #(1 1 0)) do: [ :tuple |
+			diff := (ind evaluate: (tuple first: 2)) first - tuple last.
+			score := score + (diff * diff) ]. 
+		(score / -4) asFloat ].
+	
+	neat numberOfGenerations: 190.
+	neat run.
+
+	precision := 0.15.
+	self assert: ((neat result evaluate: #(0 0)) first - 0) < precision.
+	self assert: ((neat result evaluate: #(0 1)) first - 1) < precision.
+	self assert: ((neat result evaluate: #(1 0)) first - 1) < precision.
+	self assert: ((neat result evaluate: #(1 1)) first - 0) < precision.
+	
+	
+	 
+]
+
+{ #category : #tests }
+NENeatTest >> testBasicXORSecondVersion [
+
+	| neat result |
+	neat := NEAT new.
+	neat numberOfOutputs: 2.
+	neat fitness: [ :ind | 
+		| score |
+		score := 0.
+		#(#(0 0 0) #(0 1 1) #(1 0 1) #(1 1 0)) do: [ :tuple |
+			result := (ind predict: (tuple first: 2)).
+			result = tuple last ifTrue: [ score := score + 1 ] ]. 
+		(score / 4) asFloat ].
+	
+	neat numberOfGenerations: 300.
+	neat run.
+	
+	self assert: (neat result predict: #(0 0)) equals: 0.
+	self assert: (neat result predict: #(0 1)) equals: 1.
+	self assert: (neat result predict: #(1 0)) equals: 1.
+	self assert: (neat result predict: #(1 1)) equals: 0. 
 ]

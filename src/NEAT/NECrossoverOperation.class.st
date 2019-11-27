@@ -123,6 +123,7 @@ NECrossoverOperation >> performOn: i1 and: i2 [
 	indexI1 := 1.
 	indexI2 := 1.
 	shouldIterate := true.
+	(i1 connections notEmpty and: [ i2 connections notEmpty ]) ifFalse: [ ^ NEIndividual new nodes: newNodes; connections: newConnections; random: i1 random ].
 	[ shouldIterate ] whileTrue: [ 
 		| c1 c2 |
 		indexI1 := indexI1 min: i1 numberOfConnections.

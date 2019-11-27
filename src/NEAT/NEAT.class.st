@@ -26,8 +26,6 @@ NEAT >> buildInitialPopuplation [
 		i random: random.
 		numberOfInputs timesRepeat: [ i addInputNode ].
 		numberOfOutputs timesRepeat: [ i addOutputNode ].
-		NEAddNodeMutationOperation new on: i.
-"		NEAddNodeMutationOperation new on: i."
 		population add: i
 		]
 ]
@@ -47,9 +45,9 @@ NEAT >> crossoverBetween: ind1 and: ind2 [
 { #category : #initialization }
 NEAT >> defaultConfig [
 	self resetConfig.
-	self for: NEConnectionWeightMutationOperation prob: 0.6.
-	self for: NEAddConnectionMutationOperation prob: 0.1.
-	self for: NEAddNodeMutationOperation prob: 0.1
+	self for: NEConnectionWeightMutationOperation prob: 0.2.
+	self for: NEAddConnectionMutationOperation prob: 0.2.
+	self for: NEAddNodeMutationOperation prob: 0.01
 ]
 
 { #category : #initialization }
@@ -68,7 +66,7 @@ NEAT >> doLog [
 { #category : #'as yet unclassified' }
 NEAT >> doMutate: newInd [
 	config
-		associationsDo: [ :cAssoc | 
+		do: [ :cAssoc | 
 			random next <= cAssoc value
 				ifTrue: [ cAssoc key random: random; performOn: newInd ] ]
 ]
@@ -91,7 +89,7 @@ NEAT >> fitness: anObject [
 
 { #category : #initialization }
 NEAT >> for: aClass prob: prob [
-	config at: aClass new put: prob
+	config add: aClass new -> prob
 ]
 
 { #category : #ui }
@@ -119,7 +117,7 @@ NEAT >> initialize [
 	numberOfInputs := 2.
 	numberOfOutputs := 1.
 	
-	populationSize := 300.
+	populationSize := 100.
 	random := Random seed: 42.
 	
 	logs := OrderedCollection new.
@@ -173,7 +171,7 @@ NEAT >> populationSize: anObject [
 
 { #category : #initialization }
 NEAT >> resetConfig [
-	config := Dictionary new
+	config := OrderedCollection new
 ]
 
 { #category : #accessing }
@@ -217,7 +215,7 @@ NEAT >> runOneGeneration [
 		timesRepeat: [ 
 			
 			"The following lines use the crossover"
-			random next <= 0.5
+			random next <= 0.2
 				ifTrue: [
 					ind1 := self selectIndividual.
 					ind2 := self selectIndividual: ind1 species individuals.

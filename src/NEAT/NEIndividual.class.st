@@ -34,10 +34,10 @@ NEIndividual >> addInputNode [
 	| newWeight |
 	self addNode: (NENode new setAsInput; innovationNumber: 1).
 
-	self outputNodes do: [ :on |
+"	self outputNodes do: [ :on |
 		newWeight := random next * 4 - 2.
 		self addConnection: (NEConnection new in: self numberOfNodesWithBias; out: on id; weight: newWeight; makeEnabled; innovationNumber: 1)
-	]
+	]"
 ]
 
 { #category : #adding }
@@ -52,10 +52,10 @@ NEIndividual >> addOutputNode [
 	| newWeight |
 	self addNode: (NENode new setAsOutput; innovationNumber: 1).
 	
-	self inputNodes do: [ :ino |
+"	self inputNodes do: [ :ino |
 		newWeight := random next * 4 - 2.
 		self addConnection: (NEConnection new in: ino id; out: self numberOfNodesWithBias; weight: newWeight; makeEnabled; innovationNumber: 1)
-	]
+	]"
 ]
 
 { #category : #adding }
@@ -146,6 +146,7 @@ NEIndividual >> initialize [
 
 { #category : #accessing }
 NEIndividual >> innovationNumberSequence [
+	self connections ifEmpty: [ ^ #(0) ].
 	^ self connections collect: #innovationNumber as: Array
 ]
 
