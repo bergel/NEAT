@@ -117,7 +117,7 @@ NEAT >> initialize [
 	numberOfInputs := 2.
 	numberOfOutputs := 1.
 	
-	populationSize := 100.
+	populationSize := 150.
 	random := Random seed: 42.
 	
 	logs := OrderedCollection new.
