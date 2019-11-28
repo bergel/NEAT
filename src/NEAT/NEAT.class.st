@@ -12,7 +12,8 @@ Class {
 		'random',
 		'log',
 		'speciation',
-		'numberOfGenerations'
+		'numberOfGenerations',
+		'shouldUseElitism'
 	],
 	#category : #NEAT
 }
@@ -40,6 +41,12 @@ NEAT >> crossoverBetween: ind1 and: ind2 [
 	^ ind1 fitness > ind2 fitness
 		ifTrue: [ NECrossoverOperation new performOn: ind1 and: ind2 ]
 		ifFalse: [ NECrossoverOperation new performOn: ind2 and: ind1 ]
+]
+
+{ #category : #'as yet unclassified' }
+NEAT >> currentGeneration [
+	^ self logs size
+	
 ]
 
 { #category : #initialization }
@@ -72,9 +79,19 @@ NEAT >> doMutate: newInd [
 ]
 
 { #category : #initialization }
+NEAT >> doNotUseElitism [
+	shouldUseElitism := false
+]
+
+{ #category : #initialization }
 NEAT >> doSpeciation [
 	speciation := NESpeciation new.
 	speciation process: population.
+]
+
+{ #category : #initialization }
+NEAT >> doUseElitism [
+	shouldUseElitism := true
 ]
 
 { #category : #accessing }
@@ -121,7 +138,9 @@ NEAT >> initialize [
 	random := Random seed: 42.
 	
 	logs := OrderedCollection new.
-	numberOfGenerations := 10
+	numberOfGenerations := 10.
+	
+	self doUseElitism
 ]
 
 { #category : #initialization }
@@ -208,12 +227,14 @@ NEAT >> runFor: nbGen [
 
 { #category : #'as yet unclassified' }
 NEAT >> runOneGeneration [
-	| newPopulation ind1 ind2 newInd |
+	| newPopulation ind1 ind2 newInd numberOfIndividualToCreate |
 	self doSpeciation.
 	newPopulation := OrderedCollection new.
-	populationSize
+	numberOfIndividualToCreate := (shouldUseElitism and: [ self currentGeneration > 1 ]) 
+												ifTrue: [ newPopulation add: self logs last bestIndividual copy. populationSize - 1 ] 
+												ifFalse: [ populationSize ].
+	numberOfIndividualToCreate
 		timesRepeat: [ 
-			
 			"The following lines use the crossover"
 			random next <= 0.2
 				ifTrue: [
@@ -227,6 +248,7 @@ NEAT >> runOneGeneration [
 			self doMutate: newInd.
 			newPopulation add: newInd.
 			newInd computeFitness: fitness ].
+
 	population := newPopulation.
 	self doLog
 ]

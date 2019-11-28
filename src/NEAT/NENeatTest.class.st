@@ -79,8 +79,9 @@ NENeatTest >> testBasic3XOR [
 { #category : #tests }
 NENeatTest >> testBasic4BinaryToInteger [
 
-	| neat res r |
+	| neat r |
 	neat := NEAT new.
+	"neat doNotUseElitism."
 	neat numberOfOutputs: 4.
 	neat fitness: [ :ind | 
 		| score |

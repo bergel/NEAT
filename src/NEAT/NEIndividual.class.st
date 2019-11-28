@@ -76,7 +76,8 @@ NEIndividual >> buildNetwork [
 
 { #category : #'as yet unclassified' }
 NEIndividual >> computeFitness: oneArgBlock [
-	self assert: [ fitness isNil ] description: 'Already compute fitness'.
+	"self assert: [ fitness isNil ] description: 'Already compute fitness'."
+	fitness ifNotNil: [ ^ self ]. "Already computed"
 	fitness := oneArgBlock value: self.
 ]
 
@@ -97,6 +98,7 @@ NEIndividual >> copy [
 	newInd random: self random.
 	newInd nodes: (self nodes collect: #copy).
 	newInd connections: (self connections collect: #copy).
+	newInd fitness: fitness.
 	^ newInd
 ]
 
@@ -115,6 +117,12 @@ NEIndividual >> evaluate: anArray [
 NEIndividual >> fitness [
 	self assert: [ fitness notNil ] description: 'Need to compute fitness first'.
 	^ fitness
+]
+
+{ #category : #'as yet unclassified' }
+NEIndividual >> fitness: aFitnessValue [
+	"Private method"
+	fitness := aFitnessValue
 ]
 
 { #category : #ui }
