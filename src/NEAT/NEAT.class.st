@@ -44,6 +44,13 @@ NEAT >> crossoverBetween: ind1 and: ind2 [
 ]
 
 { #category : #'as yet unclassified' }
+NEAT >> crossoverRate [
+	| t |
+	t := config detect: [ :assoc | assoc key isKindOf: NECrossoverOperation ] ifNone: [ ^ 0 ].
+	^ t value
+]
+
+{ #category : #'as yet unclassified' }
 NEAT >> currentGeneration [
 	^ self logs size
 	
@@ -236,7 +243,7 @@ NEAT >> runOneGeneration [
 	numberOfIndividualToCreate
 		timesRepeat: [ 
 			"The following lines use the crossover"
-			random next <= 0.2
+			random next <= self crossoverRate
 				ifTrue: [
 					ind1 := self selectIndividual.
 					ind2 := self selectIndividual: ind1 species individuals.
