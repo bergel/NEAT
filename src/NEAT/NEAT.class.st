@@ -61,7 +61,8 @@ NEAT >> defaultConfig [
 	self resetConfig.
 	self for: NEConnectionWeightMutationOperation prob: 0.2.
 	self for: NEAddConnectionMutationOperation prob: 0.2.
-	self for: NEAddNodeMutationOperation prob: 0.01
+	self for: NEAddNodeMutationOperation prob: 0.01.
+	self for: NECrossoverOperation prob: 0.2
 ]
 
 { #category : #initialization }
@@ -113,7 +114,15 @@ NEAT >> fitness: anObject [
 ]
 
 { #category : #initialization }
+NEAT >> for: aClass [
+	config do: [ :assoc | (assoc key isKindOf: aClass) ifTrue: [ ^ assoc value ] ].
+	^ 0
+]
+
+{ #category : #initialization }
 NEAT >> for: aClass prob: prob [
+	config do: [ :assoc | (assoc key isKindOf: aClass) ifTrue: [ assoc value: prob. ^ self ] ].
+	
 	config add: aClass new -> prob
 ]
 

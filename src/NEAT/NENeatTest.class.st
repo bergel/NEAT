@@ -256,6 +256,7 @@ NENeatTest >> testBasicXORSecondVersion [
 
 	| neat result |
 	neat := NEAT new.
+	neat for: NEAddNodeMutationOperation prob: 0.4.
 	neat numberOfOutputs: 2.
 	neat fitness: [ :ind | 
 		| score |
@@ -272,4 +273,14 @@ NENeatTest >> testBasicXORSecondVersion [
 	self assert: (neat result predict: #(0 1)) equals: 1.
 	self assert: (neat result predict: #(1 0)) equals: 1.
 	self assert: (neat result predict: #(1 1)) equals: 0. 
+]
+
+{ #category : #tests }
+NENeatTest >> testForProb [
+
+	| n |
+	n := NEAT new.
+	self assert: (n for: NECrossoverOperation) ~= 0.5.
+	n for: NECrossoverOperation prob: 0.5.
+	self assert: (n for: NECrossoverOperation) = 0.5.
 ]
