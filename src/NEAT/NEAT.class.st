@@ -205,6 +205,12 @@ NEAT >> populationSize: anObject [
 	populationSize := anObject
 ]
 
+{ #category : #'as yet unclassified' }
+NEAT >> releaseHistory [
+
+	self logs allButLast do: #release
+]
+
 { #category : #initialization }
 NEAT >> resetConfig [
 	config := OrderedCollection new

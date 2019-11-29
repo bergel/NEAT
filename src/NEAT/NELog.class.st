@@ -83,6 +83,12 @@ NELog >> printOn: str [
 	str nextPut: $>.
 ]
 
+{ #category : #dependencies }
+NELog >> release [
+	speciation := nil.
+	bestIndividual := nil
+]
+
 { #category : #accessing }
 NELog >> speciation [
 	^ speciation
