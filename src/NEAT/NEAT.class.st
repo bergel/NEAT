@@ -241,7 +241,7 @@ NEAT >> run [
 NEAT >> runFor: nbGen [
 
 	'Running the NEAT algorithm'
-	displayProgressFrom: 0 to: nbGen
+	displayProgressFrom: 1 to: nbGen
 	during: [:bar |
 		1 to: nbGen do: [:x | 
 			bar value: x.
@@ -333,5 +333,7 @@ NEAT >> visualizeNumberOfSpecies [
 	d points: self logs.
 	d y: #numberOfSpecies.
 	g add: d.
+	g axisX title: 'Generation'; noDecimal.
+	g axisY title: '# species'.
 	^ g
 ]
