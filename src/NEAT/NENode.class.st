@@ -47,7 +47,7 @@ NENode >> evaluate: aValue [
 	"We say we received a new value"
 	numberOfReceivedValues := numberOfReceivedValues + 1.
 
-	self haltIf: [ numberOfReceivedValues > numberOfInputs ].
+"	self haltIf: [ numberOfReceivedValues > numberOfInputs ]."
 
 
 	"If we received the number of zValues, then we can compute the sigmoid, and keep it."

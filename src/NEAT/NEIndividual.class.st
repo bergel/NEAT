@@ -239,6 +239,11 @@ NEIndividual >> random: aRandomNumberGenerator [
 ]
 
 { #category : #'as yet unclassified' }
+NEIndividual >> resetFitness [
+	fitness := nil
+]
+
+{ #category : #'as yet unclassified' }
 NEIndividual >> resetNetwork [
 	nodes do: #resetConnections
 ]
