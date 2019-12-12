@@ -8,7 +8,7 @@ Class {
 		'enabled',
 		'innovationNumber'
 	],
-	#category : #NEAT
+	#category : #'NEAT-Core'
 }
 
 { #category : #accessing }

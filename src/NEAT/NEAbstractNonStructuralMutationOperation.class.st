@@ -1,5 +1,5 @@
 Class {
 	#name : #NEAbstractNonStructuralMutationOperation,
 	#superclass : #NEAbstractMutationOperation,
-	#category : #NEAT
+	#category : #'NEAT-Core'
 }

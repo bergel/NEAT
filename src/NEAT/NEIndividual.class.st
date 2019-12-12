@@ -2,14 +2,21 @@ Class {
 	#name : #NEIndividual,
 	#superclass : #Object,
 	#instVars : [
+		'parents',
+		'children',
 		'nodes',
 		'connections',
 		'random',
 		'fitness',
 		'species'
 	],
-	#category : #NEAT
+	#category : #'NEAT-Core'
 }
+
+{ #category : #adding }
+NEIndividual >> addChildren: anIndividual [
+	children add: anIndividual
+]
 
 { #category : #adding }
 NEIndividual >> addConnection: aConnection [
@@ -58,6 +65,11 @@ NEIndividual >> addOutputNode [
 	]"
 ]
 
+{ #category : #initialization }
+NEIndividual >> addParent: aParent [
+	parents add: aParent
+]
+
 { #category : #adding }
 NEIndividual >> addRawNode: aNode [
 	nodes add: aNode
@@ -72,6 +84,11 @@ NEIndividual >> buildNetwork [
 				ifTrue: [ 
 					(nodes at: c in) connect: (nodes at: c out) weight: c weight.
 					(nodes at: c out) increaseNumberOfInputs ] ]
+]
+
+{ #category : #accessing }
+NEIndividual >> children [
+	^ children
 ]
 
 { #category : #'as yet unclassified' }
@@ -141,6 +158,11 @@ NEIndividual >> gtInspectorViewIn: composite [
 		initializeView: [ 	self visualize ]
 ]
 
+{ #category : #accessing }
+NEIndividual >> hasChildren [
+	^ children notEmpty
+]
+
 { #category : #initialization }
 NEIndividual >> initialize [
 	super initialize.
@@ -149,7 +171,10 @@ NEIndividual >> initialize [
 	"self seed: 42."
 	
 	"This is the bias node"
-	self addInputNode
+	self addInputNode.
+	
+	parents := OrderedCollection new: 2.
+	children := OrderedCollection new
 ]
 
 { #category : #accessing }
@@ -176,6 +201,11 @@ NEIndividual >> nodes [
 { #category : #accessing }
 NEIndividual >> nodes: someNodes [
 	nodes := someNodes 
+]
+
+{ #category : #accessing }
+NEIndividual >> numberOfChildren [
+	^ children size
 ]
 
 { #category : #'as yet unclassified' }
@@ -208,6 +238,11 @@ NEIndividual >> numberOfOutputs [
 { #category : #'as yet unclassified' }
 NEIndividual >> outputNodes [
 	^ nodes select: #isOutput
+]
+
+{ #category : #accessing }
+NEIndividual >> parents [
+	^ parents
 ]
 
 { #category : #'as yet unclassified' }

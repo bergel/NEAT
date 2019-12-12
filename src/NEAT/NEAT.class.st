@@ -15,7 +15,7 @@ Class {
 		'numberOfGenerations',
 		'shouldUseElitism'
 	],
-	#category : #NEAT
+	#category : #'NEAT-Core'
 }
 
 { #category : #initialization }
@@ -126,12 +126,28 @@ NEAT >> for: aClass prob: prob [
 	config add: aClass new -> prob
 ]
 
+{ #category : #'as yet unclassified' }
+NEAT >> gtInspectorGenerationsIn: composite [
+	<gtInspectorPresentationOrder: -10>
+	composite roassal2
+		title: 'Generations';
+		initializeView: [ 	self visualizeGenerations ]
+]
+
 { #category : #ui }
 NEAT >> gtInspectorNbOfSpeciesIn: composite [
 	<gtInspectorPresentationOrder: -10>
 	composite roassal2
 		title: '#Species';
 		initializeView: [ 	self visualizeNumberOfSpecies ]
+]
+
+{ #category : #'as yet unclassified' }
+NEAT >> gtInspectorSpeciesEvolutionIn: composite [
+	<gtInspectorPresentationOrder: -10>
+	composite roassal2
+		title: 'Evolution';
+		initializeView: [ 	self visualizeSpeciesEvolution ]
 ]
 
 { #category : #ui }
@@ -263,11 +279,17 @@ NEAT >> runOneGeneration [
 				ifTrue: [
 					ind1 := self selectIndividual.
 					ind2 := self selectIndividual: ind1 species individuals.
-					newInd := self crossoverBetween: ind1 and: ind2 ]
+					newInd := self crossoverBetween: ind1 and: ind2.
+					newInd addParent: ind1; addParent: ind2.
+					ind1 addChildren: newInd.
+					ind2 addChildren: newInd ]
 				ifFalse: [
-					newInd := self selectIndividual copy ].
-				
-			"newInd := self selectIndividual copy."
+					| i |
+					i := self selectIndividual.
+					newInd := i copy.
+					newInd addParent: i.
+					i addChildren: newInd ].
+
 			self doMutate: newInd.
 			newPopulation add: newInd.
 			newInd computeFitness: fitness ].
@@ -325,6 +347,34 @@ NEAT >> visualizeFitness [
 
 ]
 
+{ #category : #'as yet unclassified' }
+NEAT >> visualizeGenerations [
+	| b allIndividuals t |
+	b := RTMondrian new.
+	allIndividuals := OrderedCollection new.
+	b
+		nodes: (self logs collect: #speciation)
+		forEach: [ :spe | 
+			b shape box size: #numberOfChildren.
+			t := (spe population reverseSortedAs: #numberOfChildren)
+				select: [ :ii | ii numberOfChildren >= 3 ].
+			allIndividuals addAll: t.
+			b nodes: t ].
+	b layout verticalLine.
+	b shape line color: Color blue trans.
+	b edges
+		objects: allIndividuals;
+		connectToAll: #children.
+	b normalizer
+		objects: allIndividuals;
+		normalizeColor: #fitness
+			using:
+			{Color red.
+			Color gray}
+			using: #squared.
+	^ b
+]
+
 { #category : #ui }
 NEAT >> visualizeNumberOfSpecies [
 	| g d |
@@ -336,4 +386,31 @@ NEAT >> visualizeNumberOfSpecies [
 	g axisX title: 'Generation'; noDecimal.
 	g axisY title: '# species'.
 	^ g
+]
+
+{ #category : #'as yet unclassified' }
+NEAT >> visualizeSpeciesEvolution [
+	"Species evolution"
+
+	| allSpecies allSpeciations b |
+	allSpecies := OrderedCollection new.
+	allSpeciations := self logs collect: #speciation.
+	b := RTMondrian new.
+	b
+		nodes: allSpeciations
+		forEach: [ :sp | 
+			allSpecies addAll: sp groups.
+			b shape box size: #numberOfIndividuals.
+			b nodes: sp groups ].
+	b layout verticalLine alignCenter.
+	b shape line
+		color: Color blue trans;
+		withShorterVerticalAttachPoint.
+	b edges
+		objects: allSpecies;
+		connectToAll: #childrenSpecies.
+	b normalizer
+		objects: allSpecies;
+		normalizeColor: #maxFitness.
+	^ b
 ]

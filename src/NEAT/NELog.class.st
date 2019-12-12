@@ -9,7 +9,7 @@ Class {
 		'averageFitness',
 		'bestIndividual'
 	],
-	#category : #NEAT
+	#category : #'NEAT-Core'
 }
 
 { #category : #accessing }

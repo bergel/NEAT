@@ -1,7 +1,7 @@
 Class {
 	#name : #NEIndividualTest,
 	#superclass : #TestCase,
-	#category : #NEAT
+	#category : #'NEAT-Tests'
 }
 
 { #category : #'tests mutation operators' }
@@ -18,6 +18,9 @@ NEIndividualTest >> testAddNodeMutation [
 	ind seed: 42.
 	ind addInputNode; addInputNode; addInputNode.
 	ind addOutputNode.
+	
+	NEAddConnectionMutationOperation new performOn: ind.
+	
 	self assert: ind numberOfNodes equals: 4.
 	self assert: ind numberOfConnections equals: 4.
 	

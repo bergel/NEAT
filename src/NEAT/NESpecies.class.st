@@ -5,12 +5,20 @@ Class {
 		'individuals',
 		'id'
 	],
-	#category : #NEAT
+	#category : #'NEAT-Core'
 }
 
 { #category : #accessing }
 NESpecies >> averageFitness [
 	^ (self individuals collect: #fitness) average
+]
+
+{ #category : #'as yet unclassified' }
+NESpecies >> childrenSpecies [
+	| results |
+	results := Set new.
+	self individuals do: [ :i | results addAll: (i children collect: #species) ].
+	^ results
 ]
 
 { #category : #ui }
@@ -49,6 +57,14 @@ NESpecies >> maxFitness [
 { #category : #'as yet unclassified' }
 NESpecies >> numberOfIndividuals [
 	^ individuals size
+]
+
+{ #category : #'as yet unclassified' }
+NESpecies >> parentSpecies [
+	| results |
+	results := Set new.
+	self individuals do: [ :i | results addAll: (i parents collect: #species) ].
+	^ results
 ]
 
 { #category : #printing }

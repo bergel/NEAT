@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'random'
 	],
-	#category : #NEAT
+	#category : #'NEAT-Core'
 }
 
 { #category : #accessing }

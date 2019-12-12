@@ -1,7 +1,7 @@
 Class {
 	#name : #NEATExample,
 	#superclass : #Object,
-	#category : #NEAT
+	#category : #'NEAT-Examples'
 }
 
 { #category : #'as yet unclassified' }

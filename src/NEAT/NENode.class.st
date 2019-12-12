@@ -11,7 +11,7 @@ Class {
 		'numberOfReceivedValues',
 		'result'
 	],
-	#category : #NEAT
+	#category : #'NEAT-Core'
 }
 
 { #category : #'as yet unclassified' }

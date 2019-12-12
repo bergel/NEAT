@@ -4,7 +4,7 @@ Class {
 	#classVars : [
 		'InnovationNumber'
 	],
-	#category : #NEAT
+	#category : #'NEAT-Core'
 }
 
 { #category : #initialization }

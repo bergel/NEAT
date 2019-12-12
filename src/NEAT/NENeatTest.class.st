@@ -1,7 +1,7 @@
 Class {
 	#name : #NENeatTest,
 	#superclass : #TestCase,
-	#category : #NEAT
+	#category : #'NEAT-Tests'
 }
 
 { #category : #tests }

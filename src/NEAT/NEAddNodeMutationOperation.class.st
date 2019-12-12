@@ -1,7 +1,7 @@
 Class {
 	#name : #NEAddNodeMutationOperation,
 	#superclass : #NEAbstractStructuralMutationOperation,
-	#category : #NEAT
+	#category : #'NEAT-Core'
 }
 
 { #category : #'instance creation' }

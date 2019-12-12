@@ -1,7 +1,7 @@
 Class {
 	#name : #NEExample,
 	#superclass : #Object,
-	#category : #NEAT
+	#category : #'NEAT-Examples'
 }
 
 { #category : #examples }

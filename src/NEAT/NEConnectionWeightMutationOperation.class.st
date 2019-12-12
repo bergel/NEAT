@@ -1,7 +1,7 @@
 Class {
 	#name : #NEConnectionWeightMutationOperation,
 	#superclass : #NEAbstractNonStructuralMutationOperation,
-	#category : #NEAT
+	#category : #'NEAT-Core'
 }
 
 { #category : #'instance creation' }
