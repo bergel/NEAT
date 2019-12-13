@@ -8,8 +8,8 @@ Class {
 NEAddConnectionMutationOperation >> findMissingConnectionIn: anIndividual nbTry: nbTry [
 	| node1 node2 |
 	nbTry = 0 ifTrue: [ ^ nil ].
-	node1 := anIndividual nodes atRandom: random.
-	node2 := anIndividual nodes atRandom: random.
+	node1 := (anIndividual nodes reject: #isOutput) atRandom: random.
+	node2 := (anIndividual nodes reject: #isInput) atRandom: random.
 	(anIndividual connections anySatisfy: [ :c |
 		(c in = node1 id and: [ c out = node2 id ]) ]) ifTrue: [ 
 			^ self findMissingConnectionIn: anIndividual nbTry: (nbTry - 1) ]. 
