@@ -154,8 +154,8 @@ NEAT >> gtInspectorSpeciesEvolutionIn: composite [
 NEAT >> gtInspectorViewIn: composite [
 	<gtInspectorPresentationOrder: -10>
 	composite roassal2
-		title: 'Fitness';
-		initializeView: [ 	self visualizeFitness ]
+		title: 'Result history';
+		initializeView: [ 	self visualizeResultHistory ]
 ]
 
 { #category : #initialization }
@@ -247,8 +247,8 @@ NEAT >> run [
 	self computeFitnesses.
 	self doLog.
 	
-	self runFor: numberOfGenerations
-
+	self runFor: numberOfGenerations.
+	self doSpeciation.
 	
 
 ]
@@ -353,7 +353,7 @@ NEAT >> visualizeGenerations [
 	b := RTMondrian new.
 	allIndividuals := OrderedCollection new.
 	b
-		nodes: (self logs collect: #speciation)
+		nodes: (self logs allButFirst collect: #speciation)
 		forEach: [ :spe | 
 			b shape box size: #numberOfChildren.
 			t := (spe population reverseSortedAs: #numberOfChildren)
@@ -386,6 +386,19 @@ NEAT >> visualizeNumberOfSpecies [
 	g axisX title: 'Generation'; noDecimal.
 	g axisY title: '# species'.
 	^ g
+]
+
+{ #category : #ui }
+NEAT >> visualizeResultHistory [
+	| b |
+	b := RTMondrian new.
+	b shape box size: #numberOfIndividuals.
+	b interaction popupText: #averageFitness.
+	b nodes: self result species withAllParentSpecies asSet.
+	b edges connectToAll: #parentSpecies.
+	b layout tree.
+	b normalizer normalizeColor: #averageFitness.
+	^ b
 ]
 
 { #category : #'as yet unclassified' }

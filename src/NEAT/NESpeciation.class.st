@@ -32,6 +32,11 @@ NESpeciation >> numberOfSpecies [
 	^ groups size
 ]
 
+{ #category : #accessing }
+NESpeciation >> population [
+	^ self groups flatCollect: #individuals
+]
+
 { #category : #adding }
 NESpeciation >> process: someIndividuals [
 

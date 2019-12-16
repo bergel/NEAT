@@ -64,7 +64,7 @@ NESpecies >> parentSpecies [
 	| results |
 	results := Set new.
 	self individuals do: [ :i | results addAll: (i parents collect: #species) ].
-	^ results
+	^ results asSet asArray
 ]
 
 { #category : #printing }
@@ -84,4 +84,18 @@ NESpecies >> visualize [
 	b nodes: individuals.
 	b layout grid.
 	^ b
+]
+
+{ #category : #'as yet unclassified' }
+NESpecies >> withAllParentSpecies [
+	| result |
+	result := OrderedCollection new.
+	self withAllParentSpecies: result.
+	^ result 
+]
+
+{ #category : #'as yet unclassified' }
+NESpecies >> withAllParentSpecies: result [
+	result add: self.
+	self parentSpecies do: [ :s | s withAllParentSpecies: result ] 
 ]
