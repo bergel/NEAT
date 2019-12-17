@@ -111,7 +111,7 @@ NEIndividual >> connections: someConnections [
 { #category : #copying }
 NEIndividual >> copy [
 	| newInd |
-	newInd := NEIndividual new.
+	newInd := self class new.
 	newInd random: self random.
 	newInd nodes: (self nodes collect: #copy).
 	newInd connections: (self connections collect: #copy).
@@ -296,6 +296,11 @@ NEIndividual >> species [
 { #category : #accessing }
 NEIndividual >> species: anObject [
 	species := anObject
+]
+
+{ #category : #tracing }
+NEIndividual >> trace: anArray [
+	"Do nothing here. This method is meant to be a hook"
 ]
 
 { #category : #ui }

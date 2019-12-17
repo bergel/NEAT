@@ -6,9 +6,11 @@ Class {
 
 { #category : #'instance creation' }
 NEConnectionWeightMutationOperation >> on: anIndividual [
-	| c |
+	| c newWeight |
 	anIndividual connections ifEmpty: [ ^ self ].
 	c := (anIndividual connections atRandom: random).
-	c weight: self randomWeight + c weight
+	newWeight := self randomWeight + c weight.
+	c weight: newWeight.
+	anIndividual trace: { self class name . c . newWeight }
 	
 ]

@@ -35,19 +35,20 @@ NEAddConnectionMutationOperation >> is: node1 accessibleFrom: node2 in: anIndivi
 
 { #category : #'instance creation' }
 NEAddConnectionMutationOperation >> on: anIndividual [
-	| array |
+	| array newWeight c |
 	array := self findMissingConnectionIn: anIndividual nbTry: 5.
 
 	"We did not find a solution, so we merely exit. There is not much we can do"
 	array ifNil: [ ^ self ].
-	anIndividual
-		addConnection:
-			(NEConnection new
+	newWeight := self randomWeight.
+	c := NEConnection new
 				in: array first;
 				out: array second;
-				weight: self randomWeight;
+				weight: newWeight;
 				makeEnabled;
-				innovationNumber: InnovationNumber)
+				innovationNumber: InnovationNumber.
+	anIndividual addConnection: c.
+	anIndividual trace: { self class name . c . newWeight }
 ]
 
 { #category : #'instance creation' }

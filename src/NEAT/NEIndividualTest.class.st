@@ -19,33 +19,32 @@ NEIndividualTest >> testAddNodeMutation [
 	ind addInputNode; addInputNode; addInputNode.
 	ind addOutputNode.
 	
-	NEAddConnectionMutationOperation new performOn: ind.
+	10 timesRepeat: [ NEAddConnectionMutationOperation new performOn: ind ].
 	
 	self assert: ind numberOfNodes equals: 4.
 	self assert: ind numberOfConnections equals: 4.
 	
 	self assert: (ind nodes allSatisfy: [ :n | n innovationNumber = 1 ]).
-	self assert: (ind connections allSatisfy: [ :n | n innovationNumber = 1 ]).
 	
 	NEAddNodeMutationOperation new performOn: ind.
 	self assert: ind numberOfNodes equals: 5.
 	self assert: ind numberOfConnections equals: 6.
 	self assert: ((ind nodes allButLast: 1) allSatisfy: [ :n | n innovationNumber = 1 ]).
-	self assert: (ind nodes last innovationNumber = 2).
-	self assert: ((ind connections allButLast: 3) allSatisfy: [ :n | n innovationNumber = 1 ]).
-	self assert: ((ind connections last: 2) allSatisfy: [ :n | n innovationNumber = 2 ]).
+	self assert: ind nodes last innovationNumber equals: 12.
+"	self assert: ((ind connections allButLast: 3) allSatisfy: [ :n | n innovationNumber = 1 ]).
+	self assert: ((ind connections last: 2) allSatisfy: [ :n | n innovationNumber = 2 ])."
 
 	NEAddNodeMutationOperation new performOn: ind.
 	self assert: ind numberOfNodes equals: 6.
 	self assert: ind numberOfConnections equals: 8.
-	self assert: (ind nodes last innovationNumber = 3).
-	self assert: ((ind connections last: 2) allSatisfy: [ :n | n innovationNumber = 3 ]).
-
+	self assert: ind nodes last innovationNumber equals: 13.
+	"self assert: ((ind connections last: 2) allSatisfy: [ :n | n innovationNumber = 3 ])."
+	
 	NEAddNodeMutationOperation new performOn: ind.
 	self assert: ind numberOfNodes equals: 7.
 	self assert: ind numberOfConnections equals: 10.
-	self assert: (ind nodes last innovationNumber = 4).
-	self assert: ((ind connections last: 2) allSatisfy: [ :n | n innovationNumber = 4 ]).
+	self assert: ind nodes last innovationNumber equals: 14.
+	"self assert: ((ind connections last: 2) allSatisfy: [ :n | n innovationNumber = 4 ])."
 
 ]
 
@@ -72,7 +71,7 @@ NEIndividualTest >> testCopy [
 	ind2 := ind copy.
 	self deny: ind equals: ind2.
 	self deny: ind nodes equals: ind2 nodes.
-	self deny: ind connections equals: ind2 connections.
+	self assert: ind connections equals: ind2 connections.
 	self assert: ind random equals: ind2 random.
 	
 	ind nodes with: ind2 nodes do: [ :n1 :n2 | self deny: n1 equals: n2 ].
@@ -110,15 +109,16 @@ NEIndividualTest >> testExamplePaper [
 	ind random: (Random seed: 42).
 	ind addInputNode; addInputNode; addInputNode; addOutputNode; addHiddenNode.
 	ind addConnection: (NEConnection new in: 2; out: 6; weight: 0.2; makeEnabled; innovationNumber: 4).
-	ind addConnection: (NEConnection new in: 6; out: 4; weight: 0.4; makeEnabled; innovationNumber: 5).
+	ind addConnection: (NEConnection new in: 6; out: 5; weight: 0.4; makeEnabled; innovationNumber: 5).
 	ind addConnection: (NEConnection new in: 1; out: 6; weight: 0.6; makeEnabled; innovationNumber: 6).
 
 	self assert: ind numberOfInputs equals: 3.
 	self assert: ind numberOfOutputs equals: 1.
 	self assert: ind numberOfNodes equals: 5.
 	
-	self assert: (ind evaluate: #(0.1 0.2 0.3)) equals: #(0.0886048582358332).
-	self assert: (ind evaluate: #(3 2 1)) equals: #(0.2576768427369574).
+"	ind buildNetwork."
+	self assert: (ind evaluate: #(0.1 0.2 0.3)) equals: #(0.5646577813136897).
+	self assert: (ind evaluate: #(3 2 1)) equals: #(0.5762529248035996).
 
 "	self assert: ind nodes first connectedNodes equals: { ind nodes fourth . ind nodes fifth }.
 	self assert: ind nodes second connectedNodes equals: { ind nodes fourth . ind nodes fifth }.
@@ -163,7 +163,7 @@ NEIndividualTest >> testInitialConnections [
 	
 	ind addOutputNode.
 	self assert: ind numberOfInputs equals: 2.
-	self assert: ind numberOfConnections equals: 3.
+	self assert: ind numberOfConnections equals: 0.
 	self assert: ind numberOfOutputs equals: 1.
 ]
 
@@ -174,12 +174,12 @@ NEIndividualTest >> testInitialConnections2 [
 	ind := NEIndividual new.
 	ind seed: 42.
 	ind addOutputNode.
-	self assert: ind numberOfConnections equals: 1.
+	self assert: ind numberOfConnections equals: 0.
 	
 	ind addInputNode.
-	self assert: ind numberOfConnections equals: 2.
+	self assert: ind numberOfConnections equals: 0.
 	ind addInputNode.
-	self assert: ind numberOfConnections equals: 3.
+	self assert: ind numberOfConnections equals: 0.
 	self assert: ind numberOfInputs equals: 2.
 	self assert: ind numberOfOutputs equals: 1.
 	
@@ -195,10 +195,18 @@ NEIndividualTest >> testNumberOfInputs [
 	ind addOutputNode.
 
 	outputNode := ind outputNodes first.
-	self assert: outputNode numberOfInputs equals: 0.
+	self assert: outputNode numberOfInputs isNil.
 	
 	ind buildNetwork.
-	self assert: outputNode numberOfInputs equals: 4
+	self assert: outputNode numberOfInputs equals: 0.
+	
+	NEAddConnectionMutationOperation new performOn: ind.
+	NEAddConnectionMutationOperation new performOn: ind.
+	NEAddConnectionMutationOperation new performOn: ind.
+	NEAddConnectionMutationOperation new performOn: ind.
+	
+	ind buildNetwork.
+	self assert: outputNode numberOfInputs equals: 3.
 ]
 
 { #category : #tests }
@@ -210,6 +218,6 @@ NEIndividualTest >> testSimpleIndividual [
 	ind addInputNode; addInputNode; addInputNode.
 	ind addOutputNode.
 	
-	self assert: ind numberOfConnections equals: 4.
-	self assert: ind innovationNumberSequence equals: #(1 1 1 1)
+	self assert: ind numberOfConnections equals: 0.
+	self assert: ind innovationNumberSequence equals: #(0)
 ]

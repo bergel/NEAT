@@ -14,17 +14,18 @@ Class {
 		'speciation',
 		'numberOfGenerations',
 		'shouldUseElitism',
-		'speciationThreshold'
+		'speciationThreshold',
+		'individualClass'
 	],
 	#category : #'NEAT-Core'
 }
 
 { #category : #initialization }
-NEAT >> buildInitialPopuplation [
+NEAT >> buildInitialPopulation [
 	population := OrderedCollection new.
 	populationSize timesRepeat: [ 
 		| i |
-		i := NEIndividual new.
+		i := individualClass new.
 		i random: random.
 		numberOfInputs timesRepeat: [ i addInputNode ].
 		numberOfOutputs timesRepeat: [ i addOutputNode ].
@@ -169,6 +170,13 @@ NEAT >> gtInspectorViewIn: composite [
 ]
 
 { #category : #initialization }
+NEAT >> individualClass: aClass [
+	"Set the class to be used to create an individual.
+	The default value is NEIndividual, but it could be a subclass of it."
+	individualClass := aClass
+]
+
+{ #category : #initialization }
 NEAT >> initialize [
 	super initialize.
 	self defaultConfig.
@@ -182,6 +190,8 @@ NEAT >> initialize [
 	
 	logs := OrderedCollection new.
 	numberOfGenerations := 10.
+	
+	self individualClass: NEIndividual.
 	
 	self speciationThreshold: 3.
 	self doUseElitism
@@ -253,7 +263,7 @@ NEAT >> result [
 
 { #category : #initialization }
 NEAT >> run [
-	self buildInitialPopuplation.
+	self buildInitialPopulation.
 	self doSpeciation.
 	self computeFitnesses.
 	self doLog.
