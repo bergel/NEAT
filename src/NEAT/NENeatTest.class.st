@@ -124,7 +124,8 @@ NENeatTest >> testBasic5BinaryToIntegerLarger [
 	neat numberOfGenerations: 300.
 	neat run.
 	
-	self assert: neat logs last maxFitness equals: 5
+	self assert: neat result fitness equals: 7.
+	self assert: neat logs last maxFitness equals: 7
 ]
 
 { #category : #tests }

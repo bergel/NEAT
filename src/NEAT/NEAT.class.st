@@ -13,7 +13,8 @@ Class {
 		'log',
 		'speciation',
 		'numberOfGenerations',
-		'shouldUseElitism'
+		'shouldUseElitism',
+		'speciationThreshold'
 	],
 	#category : #'NEAT-Core'
 }
@@ -67,7 +68,7 @@ NEAT >> defaultConfig [
 
 { #category : #initialization }
 NEAT >> doLog [
-
+	self assert: [ speciation notNil ].
 	log := NELog new.
 	log generation: logs size.
 	log speciation: speciation.
@@ -95,6 +96,7 @@ NEAT >> doNotUseElitism [
 { #category : #initialization }
 NEAT >> doSpeciation [
 	speciation := NESpeciation new.
+	speciation threshold: speciationThreshold.
 	speciation process: population.
 ]
 
@@ -124,6 +126,14 @@ NEAT >> for: aClass prob: prob [
 	config do: [ :assoc | (assoc key isKindOf: aClass) ifTrue: [ assoc value: prob. ^ self ] ].
 	
 	config add: aClass new -> prob
+]
+
+{ #category : #ui }
+NEAT >> gtInspectorFitnessIn: composite [
+	<gtInspectorPresentationOrder: -10>
+	composite roassal2
+		title: 'Fitness';
+		initializeView: [ 	self visualizeFitness ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -173,6 +183,7 @@ NEAT >> initialize [
 	logs := OrderedCollection new.
 	numberOfGenerations := 10.
 	
+	self speciationThreshold: 3.
 	self doUseElitism
 ]
 
@@ -314,6 +325,17 @@ NEAT >> selectIndividual: someIndividuals [
 		winner fitness < i fitness ifTrue: [ winner := i ]
 	].
 	^ winner
+]
+
+{ #category : #accessing }
+NEAT >> speciationThreshold [
+	^ speciationThreshold
+]
+
+{ #category : #accessing }
+NEAT >> speciationThreshold: anInteger [
+	"Per default, it is 3"
+	speciationThreshold := anInteger
 ]
 
 { #category : #ui }
