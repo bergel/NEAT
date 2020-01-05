@@ -141,7 +141,7 @@ NECrossoverOperation >> performOn: i1 and: i2 [
 		(indexI1 >= i1 numberOfConnections and: [ indexI2 >= i2 numberOfConnections ])
 			ifTrue: [ shouldIterate := false ]
 	].
-	newConnections addAll: (i1 connections allButFirst: indexI1 - 1).
+	newConnections addAll: ((i1 connections allButFirst: indexI1 - 1) collect: #copy).
 
 	^ individualClass new nodes: newNodes; connections: newConnections; random: i1 random
 ]
