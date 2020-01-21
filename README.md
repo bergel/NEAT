@@ -29,13 +29,16 @@ One of the introductory example in neural network, is to build a neural network 
 
 ```Smalltalk
 neat := NEAT new.
+neat numberOfInputs: 2.
+neat numberOfOutputs: 1.
 neat fitness: [ :ind | 
 	| score |
 	score := 0.
-	#(#(0 0 0) #(0 1 0) #(1 0 1) #(1 1 0)) do: [ :tuple |
+	#(#(0 0 0) #(0 1 1) #(1 0 1) #(1 1 0)) do: [ :tuple |
 		diff := (ind evaluate: (tuple first: 2)) first - tuple last.
 		score := score + (diff * diff) ]. 
 	(score / -4) asFloat ].
+neat numberOfGenerations: 200.
 neat run
 ```
 
