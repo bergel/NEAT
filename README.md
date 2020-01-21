@@ -23,6 +23,28 @@ Gofer new
     load.
 ```
 
+# Example
+
+One of the introductory example in neural network, is to build a neural network that expresses the XOR logical gate. We can do so using NEAT. Consider the following script:
+
+```Smalltalk
+neat := NEAT new.
+neat fitness: [ :ind | 
+	| score |
+	score := 0.
+	#(#(0 0 0) #(0 1 0) #(1 0 1) #(1 1 0)) do: [ :tuple |
+		diff := (ind evaluate: (tuple first: 2)) first - tuple last.
+		score := score + (diff * diff) ]. 
+	(score / -4) asFloat ].
+neat run
+```
+
+The script configure the NEAT algorithm to handles individual (i.e., neural networks) having two inputs and one output. The XOR logical gates takes two arguments and return one value. So, a neural network with 2 inputs and 1 output is sufficent to express the XOR.
+
+Evaluating the script gives the following output:
+![alt text](https://raw.githubusercontent.com/bergel/NEAT/branch/images/XOR-example.png)
+
+
 # Wanna to chat about it? 
 
 Join the [Pharo discord server](http://pharo.org/community) and join the `#ia` channel. You are also very welcome to post issues to this GitHub repository.
