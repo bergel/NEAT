@@ -4,6 +4,8 @@
 
 NEAT is maybe the most popular neuroevolution algorithm. A description of NEAT may be found in the paper [Evolving Neural Networks through Augmenting Topologies](http://nn.cs.utexas.edu/downloads/papers/stanley.ec02.pdf).
 
+The content of this GitHub repository is heavily inspired from the book [Agile Artificial Intelligence in Pharo: Implementing Neural Networks, Genetic Algorithms, and Neuroevolution](https://www.apress.com/gp/book/9781484253830).
+
 # NEAT4Pharo
 
 This repository provides an implementation of NEAT for the [Pharo programming language](http://pharo.org). Many implementations of NEAT exist in a wide range of programming languages. The advantages of NEAT4Pharo is to have a relativaly small amount of source code (< 1000 LOC), and it offers interactive visualization to give a better understanding of how the evolution was carried out. 
@@ -63,6 +65,17 @@ neat result evaluate: #(1 1).
 "#(0.006270828175993032)"
 ```
 
+In addition to the fitness curve, inspecting the object `neat` gives additional relevant visualizations. For example, the tab `#Species` gives the evolution of the number of species during the generations:
+
+![alt text](images/XOR-Species.png)
+
+We see that the number of species increases significantly at the begining of the algorithm execution to reach a relatively sable value around 25 species. Clicking on a dot opens the species visualization:
+
+![alt text](images/XOR-SpeciesVisualization.png)
+
+The species visualization represents species. The size of a box is the size of the species, i.e., the number of individual that belongs to the species. The color fading indicate the fitness value of the best individual. Clicking on a species list the individuals that belongs to the species. Clicking on an individual open a visualization of the neural network
+
+![alt text](images/XOR-NeuralNetwork.png)
 
 # Wanna to chat about it? 
 
