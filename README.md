@@ -45,15 +45,22 @@ neat run
 The script configure the NEAT algorithm to handles individual (i.e., neural networks) having two inputs and one output. The XOR logical gates takes two arguments and return one value. So, a neural network with 2 inputs and 1 output is sufficent to express the XOR.
 
 Evaluating the script gives the following output:
-![alt text](images/XOR-example2.png)
+![alt text](images/XOR-example3.png)
 
 We see the curve of the maximum fitness reaches 0. This means that the NEAT algorithm was able to produce through evolution a neural network that express the XOR logical gate. We can veriy this:
 
 ```Smalltalk
 neat result evaluate: #(0 0).
-"Return #(0.08940191590507264)"
+"Return #(0.0024744051266554854)"
 
+neat result evaluate: #(0 1).
+"#(0.9992445715215523)"
 
+neat result evaluate: #(1 0).
+"#(0.9901246518281834)"
+
+neat result evaluate: #(1 1).
+"#(0.006270828175993032)"
 ```
 
 
