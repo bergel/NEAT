@@ -1,6 +1,6 @@
 # Neuroevolution and NEAT
 
-[Neuroevolution](https://en.wikipedia.org/wiki/Neuroevolution) is a fantastica area that belongs to artificial intelligence. Neuroevoltion is about _evolving_ neural networks to solve a particular problem. Neuroevolution differs from classical deep learning in the way a satisfactory model is obtained. Classical learning techniques for Deep Learning (e.g., backpropagation) are about _learning_, while Neuroevolution is about _evolving_ a model. 
+[Neuroevolution](https://en.wikipedia.org/wiki/Neuroevolution) is a fantastic area that belongs to artificial intelligence. Neuroevolution is about _evolving_ neural networks to solve a particular problem. Neuroevolution differs from classical deep learning in the way a satisfactory model is obtained. Classical learning techniques for Deep Learning (e.g., backpropagation) are about _learning_, while Neuroevolution is about _evolving_ a model. 
 
 NEAT is maybe the most popular neuroevolution algorithm. A description of NEAT may be found in the paper [Evolving Neural Networks through Augmenting Topologies](http://nn.cs.utexas.edu/downloads/papers/stanley.ec02.pdf).
 
@@ -16,6 +16,10 @@ Execute the following script to load the [Roassal2 visualization engine](https:/
 Metacello new
     baseline: 'Roassal2';
     repository: 'github://ObjectProfile/Roassal2/src';
+    load.
+Gofer new
+    url: 'github://bergel/NEAT/src';
+    package: 'NEAT';
     load.
 ```
 
