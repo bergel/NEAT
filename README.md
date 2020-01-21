@@ -44,6 +44,15 @@ The script configure the NEAT algorithm to handles individual (i.e., neural netw
 Evaluating the script gives the following output:
 ![alt text](images/XOR-example2.png)
 
+We see the curve of the maximum fitness reaches 0. This means that the NEAT algorithm was able to produce through evolution a neural network that express the XOR logical gate. We can veriy this:
+
+```Smalltalk
+neat result evaluate: #(0 0).
+"Return #(0.08940191590507264)"
+
+
+```
+
 
 # Wanna to chat about it? 
 
