@@ -42,7 +42,7 @@ neat run
 The script configure the NEAT algorithm to handles individual (i.e., neural networks) having two inputs and one output. The XOR logical gates takes two arguments and return one value. So, a neural network with 2 inputs and 1 output is sufficent to express the XOR.
 
 Evaluating the script gives the following output:
-![alt text](https://raw.githubusercontent.com/bergel/NEAT/branch/images/XOR-example.png)
+![alt text](images/XOR-example.png)
 
 
 # Wanna to chat about it? 
