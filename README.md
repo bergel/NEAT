@@ -77,7 +77,7 @@ The species visualization represents species. The size of a box is the size of t
 
 ![alt text](images/XOR-NeuralNetwork.png)
 
-# Wanna to chat about it? 
+# Let's chat
 
 Join the [Pharo discord server](http://pharo.org/community) and join the `#ia` channel. You are also very welcome to post issues to this GitHub repository.
 
